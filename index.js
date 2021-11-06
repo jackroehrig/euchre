@@ -19,7 +19,46 @@ possible settings: volume, game options(farmers hand, screw the dealer,  etc.), 
 
 */
 
-// const deck = [];
+const gameOptions = {
+    musicVolume: 100,
+    soundsVolume: 100,
+    masterVolume: 100,
+    screwTheDealer: true,
+    farmersHand: false,
+    cardTheme: 'solidRed'
+}
 
-// let exit = document.querySelector('[name = "exit"]')
-// exit.addEventListener('click', () => window.close())
+
+
+let optionsMenu = document.querySelector('.game-options')
+
+addButtonEvent('name', 'play', () => window.location.href = 'play_game.html')
+addButtonEvent('name', 'options', () => optionsMenu.classList.remove('invisible'))
+addButtonEvent('name', 'exit', () => window.close())
+addButtonEvent('id', 'close-options', () => optionsMenu.classList.add('invisible'))
+
+addSliderEvent('musicVol')
+addSliderEvent('soundVol')
+addSliderEvent('masterVol')
+
+// function to add functionality to buttons in main menu and options menus
+function addButtonEvent(attr, name, callback) {
+    let button = document.querySelector(`[${attr} = ${name}]`)
+    button.addEventListener('click', callback)
+}
+
+function addSliderEvent(name) {
+    let slider = document.querySelector(`[name = ${name}]`)
+    slider.addEventListener('change', (e) => {
+        document.querySelector(`#${name}`).innerHTML = e.target.value;
+        localStorage.setItem(name, e.target.value)
+    })
+}
+
+window.onload = () => {
+    let volumes = document.querySelectorAll('.game-options p')
+    let ranges = document.querySelectorAll('[type = "range"]')
+    volumes.forEach(tag => tag.innerHTML = localStorage.getItem(tag.id) ? localStorage.getItem(tag.id) : 100)
+    ranges.forEach(tag => tag.value = localStorage.getItem(tag.name) ? localStorage.getItem(tag.name) : 100)
+}
+
