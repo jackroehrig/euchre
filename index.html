@@ -11,69 +11,101 @@
     <!-- Fonts, libraries, etc. -->
     <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous" defer></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous" defer></script>
 
     <!-- My Files -->
     <link rel="stylesheet" href='assets/styles.css'>
     <script src='index.js' defer></script>
 </head>
 <body>
-    <!-- Main Menu Header -->
-    <h1>Jack's Euchre!</h1>
+    <main>
+        <!-- Main Menu Header -->
+        <h1>Jack's Euchre!</h1>
 
-    <!-- Aces Image -->
-    <img id='aces' src='assets/images/card_fronts/aces.png' alt='Aces of all suits spread in a fan'><br>
+        <!-- Aces Image -->
+        <img id='aces' src='assets/images/extra/aces.png' alt='Aces of all suits spread in a fan'><br>
 
-    <!-- Main Menu Buttons -->
-    <button class='main-option' name='play'>Play Game</button><br>
-    <button class='main-option' name='options'>Game Options</button><br>
-    <button class='main-option' name='settings'>Settings</button><br>
-    <button class='main-option' name='exit'>Exit Game</button><br>
+        <!-- Main Menu Buttons -->
+        <button class='main-option' name='play'>Play Game</button><br>
+        <button class='main-option' name='settings'>Settings</button><br>
+        <button class='main-option' name='exit'>Exit Game</button><br>
+    </main>
 
-    <!-- Game Options Menu -->
-    <div class="game-options invisible">
-        <div id='close-options'>X</div>
-        <h2>Game Options</h2>
+    <!-- Settings Menu -->
+    <div class="settings-menu invisible">
+        <div id='close-settings'>X</div>
+        <h2>Settings</h2>
         <ul>
             <li>
-                <label for='musicVol'>Music Volume:</label>
+                <label for='musicVol'>Music Volume</label>
                 <i class="fas fa-volume-down fa-lg"></i>
-                <input type='range' min='0' max='100' value='100' name='musicVol' class='form-range'>
+                <input type='range' min='0' max='100' value='100' name='musicVol' id='musicVol'>
                 <i class="fas fa-volume-up fa-lg"></i>
+                <p id='musicVolumeNum'></p>
             </li>
-            <p id='musicVol'></p>
             <li>
-                <label for='soundVol'>Sound Effect Volume:</label>
+                <label for='soundVol'>Sound Effect Volume</label>
                 <i class="fas fa-volume-down fa-lg"></i>
-                <input type='range' min='0' max='100' value='100' name='soundVol'>
+                <input type='range' min='0' max='100' value='100' name='soundVol' id='soundVol'>
                 <i class="fas fa-volume-up fa-lg"></i>
+                <p id='soundVolumeNum'></p>
             </li>
-            <p id='soundVol'></p>
             <li>
-                <label for='masterVol'>Master Volume:</label>
+                <label for='masterVol'>Master Volume</label>
                 <i class="fas fa-volume-down fa-lg"></i>
-                <input type='range' min='0' max='100' value='100' name='masterVol'>
+                <input type='range' min='0' max='100' value='100' name='masterVol' id='masterVol'>
                 <i class="fas fa-volume-up fa-lg"></i>
+                <p id='masterVolumeNum'></p>
             </li>
-            <p id='masterVol'></p>
             <li>
-                <div class="form-check form-switch">
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Screw The Dealer:</label>
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                </div>                  
+                <label for='screw-dealer'>
+                    Screw The Dealer 
+                    <div class='switch'>
+                        <input type='checkbox' name='screw-dealer' id='screw-dealer'>                
+                        <span class='slider round'></span>
+                    </div>
+                </label>
             </li>
 
             <li>
-                <h3>Farmer's Hand</h3>
+                <label for='farmers-hand'>
+                    Farmer's Hand 
+                    <div class='switch'>
+                        <input type='checkbox' name='farmers-hand' id='farmers-hand'>                
+                        <span class='slider round'></span>
+                    </div>
+                </label>
             </li>
 
             <li>
-                <h3>Card Themes</h3>
+                <label>Card Themes</label>
+                <div id='themes'>
+                    <div id='solid-red' class="not-highlighted">
+                        <img src='assets/images/card_backs/solid_red_card_back.png' alt='Solid red back of a playing card'>
+                    </div>
+                    <div id='solid-blue' class="not-highlighted">
+                        <img src='assets/images/card_backs/blue_card_back.png' alt='Solid blue back of a playing card'>
+                    </div>
+                    <div id='red-grid' class="not-highlighted">
+                        <img src='assets/images/card_backs/red_grid_card_back.png' alt='Red grid back of a playing card'>
+                    </div>
+                </div>
             </li>
         </ul>
+    </div>
+
+
+    <!-- Game Options -->
+    <div class="game-options invisible">
+        <div id='close-game-options'>X</div>
+        <form>
+            <p>Play Vs. Computer or Multiplayer</p>
+            <input type='radio' id='computer' name='multi-ai'>
+            <label for='computer'>Computer</label>
+            <input type='radio' id='multiplayer' name='multi-ai'>
+            <label for='multiplayer'>Multiplayer</label>
+            <p id='choose-option'></p>
+            <button class='start-button'>Start</button>
+        </form>
     </div>
 
 </body>

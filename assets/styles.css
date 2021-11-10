@@ -3,25 +3,26 @@ body {
     text-align: center;
 }
 
+/* Main Page CSS */
 h1 {
-    font-size: 75px;
+    font-size: 5vw;
     color: yellow;
     font-family: 'Mochiy Pop P One', sans-serif;
     -webkit-text-stroke: 2px black;
-    margin: 3vw;
+    margin: 2vw auto;
 }
 
 #aces {
-    height: 12vw;
-    margin-bottom: 2vw;
+    height: 14vw;
+    margin-bottom: 1vw;
 }
 
 .main-option {
-    width: 20vw;
-    height: 3vw;
+    width: 25vw;
+    height: 4vw;
     background-color: rgb(44, 35, 20);
     border-radius: 10px;
-    font-size: 30px;
+    font-size: 2vw;
     color: white;
     border: none;
     margin: 10px;
@@ -31,34 +32,35 @@ h1 {
     border: 2px solid white;
 }
 
-.game-options {
+/* Settings Menu CSS */
+.settings-menu {
     position: fixed;
-    top: 10%;
+    top: 5%;
     left: 10%;
     width: 80%;
-    height: 80%;
+    height: 90%;
     border-radius: 10px;
     background-color: rgb(44, 35, 20);
+    border: 8px solid rgb(15, 12, 7);
     color: white;
     font-family: 'Mochiy Pop P One', sans-serif;
+}
+
+.settings-menu h2 {
+    color: yellow;
+    font-size: 60px;
+    -webkit-text-stroke: 2px black;
+    margin: 0 auto 1.5vw auto;
+    padding-bottom: 1vw;
+    border-bottom: 5px solid rgb(15, 12, 7);
+    width: 50vw;
 }
 
 .invisible {
     display: none;
 }
 
-.game-options h2 {
-    color: yellow;
-    font-size: 60px;
-    -webkit-text-stroke: 2px black;
-    margin-top: 0;
-}
-
-.fa-volume-down {
-    margin-left: 1vw;
-}
-
-#close-options {
+#close-settings,#close-game-options {
     font-size: 20px;
     margin-top: 10px;
     margin-right: 20px;
@@ -67,20 +69,229 @@ h1 {
     cursor: pointer;
 }
 
-.game-options ul {
+.settings-menu ul {
     list-style-type: none;
     padding-left: 0;
-    margin-top: 3vw;
-}
-
-.game-options p {
-    margin: 0 auto;
-    line-height: 0;
-    color: yellow
-}
-
-.game-options li {
-    font-size: 20px;
     align-content: center;
-    margin: 1vw auto;
 }
+
+.fa-volume-down {
+    margin-left: 1vw;
+}
+
+ul label {
+    font-size: 25px;
+}
+
+.settings-menu p {
+    margin-left: 1vw;
+    color: yellow;
+    font-size: 20px;
+    display: inline;
+}
+
+.settings-menu li {
+    align-content: center;
+    margin: 1.5vw auto;
+    color: white;
+    align-content: center;
+}
+
+/* Themes Flexbox */
+#themes img{
+    height: 13vw;
+    width: 13vw;
+    position: relative;
+}
+
+#themes{
+    margin: 2vw auto 0 auto;
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+    width: 70%;
+}
+
+/* FIX */
+
+/* Highlighted Card CSS */
+.highlighted {
+    border: 0.4vw solid yellow;
+    border-radius: 1.4vw;
+    height: 12.3vw;
+    width: 9.1vw;
+    overflow: hidden;
+    /* box-sizing: border-box; */
+}
+
+/* .highlighted>img {
+    bottom: 0.55vw;
+    right: 2.33vw;
+} */
+
+.not-highlighted { 
+    border-radius: 1.4vw;
+    height: 13.5vw;
+    width: 9.5vw;
+    overflow: hidden;
+}
+
+/* .not-highlighted>img {
+    bottom: 0.15vw;
+    right: 1.86vw;
+} */
+
+/* ^FIX^ */
+
+    /* Switch buttons CSS */
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 25px;
+        left: 1vw;
+        top: 0.4vw;
+    }
+    
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+    
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 17px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: rgb(44, 35, 20);
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+    
+    input:checked + .slider {
+        background-color: yellow;
+    }
+    
+    input:focus + .slider {
+        box-shadow: 0 0 1px yellow;
+    }
+    
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+    
+    .slider.round {
+        border-radius: 34px;
+    }
+    
+    .slider.round:before {
+        border-radius: 10px;
+    }
+
+/* Game Options */
+.game-options {
+    position: fixed;
+    top: 20%;
+    left: 30%;
+    width: 40%;
+    height: 60%;
+    border-radius: 10px;
+    background-color: rgb(44, 35, 20);
+    border: 8px solid rgb(15, 12, 7);
+    color: white;
+    font-family: 'Mochiy Pop P One', sans-serif;
+}
+
+.start-button {
+    display: block;
+    width: 20%;
+    height: 2vw;
+    margin: 2vw auto;
+    border: none;
+    border-radius: 30px;
+    background-color: rgb(255, 255, 0);
+    font-family: 'Mochiy Pop P One', sans-serif;
+}
+
+.start-button:hover {
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+#choose-option {
+    font-size: 1vw;
+    color: red;
+}
+
+
+/* Play Game */
+
+.menu-button {
+    background-color: white;
+    font-weight: 1000;
+    color: rgb(44, 35, 20);
+    border: none;
+    height: 2vw;
+    width: 4vw;
+    position: absolute;
+    right: 1vw;
+    top: 1vw;
+    border-radius: 50px;
+}
+
+.menu-button:hover {
+    cursor: pointer;
+}
+
+.hand {
+    height: 5vw;
+    width: 25%;
+    border: 2px solid white;
+    position: absolute;
+}
+
+#top-hand {
+    top: 0;
+    left: 37.5%;
+    transform: rotate(180deg);
+}
+
+#left-hand {
+    left: -10vw;
+    top: 45%;
+    transform: rotate(90deg);
+}
+
+#right-hand {
+    right: -10vw;
+    top: 45%;
+    transform: rotate(270deg);
+}
+
+#bottom-hand {
+    bottom: 0;
+    left: 37.5%;
+}
+
+
+
+/* (Maybe 2 v. AI eventually) */
+
+

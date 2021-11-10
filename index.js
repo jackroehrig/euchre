@@ -19,27 +19,41 @@ possible settings: volume, game options(farmers hand, screw the dealer,  etc.), 
 
 */
 
-const gameOptions = {
-    musicVolume: 100,
-    soundsVolume: 100,
-    masterVolume: 100,
-    screwTheDealer: true,
-    farmersHand: false,
-    cardTheme: 'solidRed'
-}
+export {addButtonEvent, addSliderEvent, addThemeEvent, addSwitchEvent};
 
 
+let settingsMenu = document.querySelector('.settings-menu')
+let gameOptionsMenu = document.querySelector('.game-options')
 
-let optionsMenu = document.querySelector('.game-options')
-
-addButtonEvent('name', 'play', () => window.location.href = 'play_game.html')
-addButtonEvent('name', 'options', () => optionsMenu.classList.remove('invisible'))
+addButtonEvent('name', 'play', () => gameOptionsMenu.classList.remove('invisible'))
+addButtonEvent('name', 'settings', () => settingsMenu.classList.remove('invisible'))
 addButtonEvent('name', 'exit', () => window.close())
-addButtonEvent('id', 'close-options', () => optionsMenu.classList.add('invisible'))
+
+
+addButtonEvent('id', 'close-settings', () => settingsMenu.classList.add('invisible'))
+addButtonEvent('id', 'close-game-options', () => gameOptionsMenu.classList.add('invisible'))
+
+addButtonEvent('class', 'start-button', (e) => {
+    e.preventDefault()
+    if(document.querySelector('#computer').checked){
+        window.location.href = 'play_AI.html'
+    } else if(document.querySelector('#multiplayer').checked){
+        window.location.href = 'play_multiplayer.html'
+    } else {
+        document.querySelector('#choose-option').innerHTML = 'Please choose either vs. Computer or Multiplayer.'
+    }
+})
 
 addSliderEvent('musicVol')
 addSliderEvent('soundVol')
 addSliderEvent('masterVol')
+
+addSwitchEvent('screw-dealer')
+addSwitchEvent('farmers-hand')
+
+addThemeEvent('solid-red')
+addThemeEvent('solid-blue')
+addThemeEvent('red-grid')
 
 // function to add functionality to buttons in main menu and options menus
 function addButtonEvent(attr, name, callback) {
@@ -48,17 +62,73 @@ function addButtonEvent(attr, name, callback) {
 }
 
 function addSliderEvent(name) {
-    let slider = document.querySelector(`[name = ${name}]`)
-    slider.addEventListener('change', (e) => {
-        document.querySelector(`#${name}`).innerHTML = e.target.value;
-        localStorage.setItem(name, e.target.value)
+    let slider = document.querySelector(`#${name}`)
+    slider.addEventListener('input', (e) => {
+        document.querySelector(`#${name}umeNum`).innerHTML = e.target.value;
+        localStorage.setItem(`${name}umeNum`, e.target.value)
     })
 }
 
-window.onload = () => {
-    let volumes = document.querySelectorAll('.game-options p')
-    let ranges = document.querySelectorAll('[type = "range"]')
-    volumes.forEach(tag => tag.innerHTML = localStorage.getItem(tag.id) ? localStorage.getItem(tag.id) : 100)
-    ranges.forEach(tag => tag.value = localStorage.getItem(tag.name) ? localStorage.getItem(tag.name) : 100)
+function addSwitchEvent(id){
+    let switchButton = document.querySelector(`#${id}`)
+    switchButton.addEventListener('change', (e) => {
+        localStorage.setItem(id, e.target.checked)
+    })
 }
+
+function addThemeEvent(id){
+    let card = document.querySelector(`#${id}`)
+
+    card.addEventListener('click', (e) => {
+        let themes = document.querySelector('#themes')
+        for(key in themes.children){
+            if(typeof themes.children[key] == 'object'){
+                themes.children[key].classList = 'not-highlighted'
+            }
+        }
+        e.currentTarget.classList = 'highlighted'
+        localStorage.setItem('theme', e.currentTarget.id)
+    })
+
+    card.addEventListener('mouseover', (e) => {
+        if(localStorage.getItem('theme') != e.currentTarget.id){
+            e.currentTarget.classList.remove('not-highlighted')
+            e.currentTarget.classList.add('highlighted')
+        }
+    })
+
+    card.addEventListener('mouseleave', (e) => {
+        if(localStorage.getItem('theme') != e.currentTarget.id){
+            e.currentTarget.classList.remove('highlighted')
+            e.currentTarget.classList.add('not-highlighted')
+        }
+    })
+}
+
+
+
+//For persistent settings
+window.onload = () => {
+    let volumes = document.querySelectorAll('.settings-menu p')
+    let ranges = document.querySelectorAll('[type = "range"]')
+    let switches = document.querySelectorAll('[type = "checkbox"]')
+    let themes = document.querySelectorAll('.not-highlighted')
+    volumes.forEach(tag => tag.innerHTML = localStorage.getItem(tag.id) ? localStorage.getItem(tag.id) : 100)
+    ranges.forEach(tag => tag.value = localStorage.getItem(`${tag.name}umeNum`) ? localStorage.getItem(`${tag.name}umeNum`) : 100)
+    switches.forEach(tag => tag.checked = localStorage.getItem(tag.id) !== null ? localStorage.getItem(tag.id) === 'true' : tag.id == 'screw-dealer' ? true: false)
+    for(let i = 0; i < themes.length; i++) {
+        let tag = themes[i] 
+        if(tag.id == localStorage.getItem('theme')){
+            tag.classList.remove('not-highlighted')
+            tag.classList.add('highlighted')
+            break;
+        } else if(i == 2){
+            localStorage.setItem('theme', themes[0].id)
+            themes[0].classList.remove('not-highlighted')
+            themes[0].classList.add('highlighted')
+        }
+    }
+
+}
+
 
