@@ -246,6 +246,7 @@ ul label {
 .menu-button {
     background-color: white;
     font-weight: 1000;
+    font-size: 1vw;
     color: rgb(44, 35, 20);
     border: none;
     height: 2vw;
@@ -260,11 +261,124 @@ ul label {
     cursor: pointer;
 }
 
+#message-area {
+    color: white;
+    margin-top: 10vw;
+    font-family: 'Mochiy Pop P One', sans-serif;
+}
+
+#center-area img {
+    height: 10vw;
+    position: fixed;
+    top: 38%;
+    left: 45%;
+}
+
+/* Card Dealing Animation From the Center */
+.deal-card-left {
+    animation: dealCardLeft 1s forwards;
+}
+
+@keyframes dealCardLeft {
+    0%{left: 45%;}
+    100%{left: 12%;}
+}
+
+.deal-card-right {
+    animation: dealCardRight 1s forwards;
+}
+
+@keyframes dealCardRight {
+    0%{left: 48.5%;}
+    100%{left: 81%;}
+}
+
+.deal-card-up {
+    animation: dealCardUp 1s forwards;
+}
+
+@keyframes dealCardUp {
+    0%{top: 37.8%;}
+    100%{top: 12%;}
+}
+
+.deal-card-down {
+    animation: dealCardDown 1s forwards;
+}
+
+@keyframes dealCardDown {
+    0%{top: 38%;}
+    100%{top: 67%;}
+}
+
+
+
+
+
+/* Sending Top Card to Dealer */
+.send-up {
+    animation: sendUp 1s forwards;
+}
+
+@keyframes sendUp {
+    0%{}
+    100%{
+        top: -10vw;
+        transform: rotate(360deg);
+    }
+}
+
+.send-left {
+    animation: sendLeft 1s forwards;
+}
+
+@keyframes sendLeft {
+    0%{}
+    100%{
+        left: -8.5vw;
+        transform: rotate(360deg);
+    }
+}
+
+.send-right {
+    animation: sendRight 1s forwards;
+}
+
+@keyframes sendRight {
+    0%{}
+    100%{
+        left: 99vw;
+        transform: rotate(360deg);
+    }
+}
+
+.send-down {
+    animation: sendDown 1s forwards;
+}
+
+@keyframes sendDown {
+    0%{}
+    100%{
+        top: 49vw;
+        transform: rotate(360deg);
+    }
+}
+
+
+
+
 .hand {
     height: 5vw;
     width: 25%;
     border: 2px solid white;
     position: absolute;
+}
+
+.name {
+    color: white;
+    font-family: 'Mochiy Pop P One', sans-serif;
+    font-weight: 1000;
+    position: fixed;
 }
 
 #top-hand {
@@ -273,10 +387,20 @@ ul label {
     transform: rotate(180deg);
 }
 
+#top-name {
+    top: 1vw;
+    left: 32vw;
+}
+
 #left-hand {
     left: -10vw;
     top: 45%;
     transform: rotate(90deg);
+}
+
+#left-name {
+    left: 1vw;
+    top: 9.5vw;
 }
 
 #right-hand {
@@ -285,9 +409,19 @@ ul label {
     transform: rotate(270deg);
 }
 
+#right-name {
+    right: 1.3vw;
+    top: 9.5vw;
+}
+
 #bottom-hand {
     bottom: 0;
     left: 37.5%;
+}
+
+#bottom-name{
+    bottom: 1vw;
+    left: 32vw;
 }
 
 

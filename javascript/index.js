@@ -19,21 +19,20 @@ possible settings: volume, game options(farmers hand, screw the dealer,  etc.), 
 
 */
 
-export {addButtonEvent, addSliderEvent, addThemeEvent, addSwitchEvent};
-
+import * as myFunctions from './functions.mjs';
 
 let settingsMenu = document.querySelector('.settings-menu')
 let gameOptionsMenu = document.querySelector('.game-options')
 
-addButtonEvent('name', 'play', () => gameOptionsMenu.classList.remove('invisible'))
-addButtonEvent('name', 'settings', () => settingsMenu.classList.remove('invisible'))
-addButtonEvent('name', 'exit', () => window.close())
+myFunctions.addButtonEvent('name', 'play', () => gameOptionsMenu.classList.remove('invisible'))
+myFunctions.addButtonEvent('name', 'settings', () => settingsMenu.classList.remove('invisible'))
+myFunctions.addButtonEvent('name', 'exit', () => window.close())
 
 
-addButtonEvent('id', 'close-settings', () => settingsMenu.classList.add('invisible'))
-addButtonEvent('id', 'close-game-options', () => gameOptionsMenu.classList.add('invisible'))
+myFunctions.addButtonEvent('id', 'close-settings', () => settingsMenu.classList.add('invisible'))
+myFunctions.addButtonEvent('id', 'close-game-options', () => gameOptionsMenu.classList.add('invisible'))
 
-addButtonEvent('class', 'start-button', (e) => {
+myFunctions.addButtonEvent('class', 'start-button', (e) => {
     e.preventDefault()
     if(document.querySelector('#computer').checked){
         window.location.href = 'play_AI.html'
@@ -44,66 +43,16 @@ addButtonEvent('class', 'start-button', (e) => {
     }
 })
 
-addSliderEvent('musicVol')
-addSliderEvent('soundVol')
-addSliderEvent('masterVol')
+myFunctions.addSliderEvent('musicVol')
+myFunctions.addSliderEvent('soundVol')
+myFunctions.addSliderEvent('masterVol')
 
-addSwitchEvent('screw-dealer')
-addSwitchEvent('farmers-hand')
+myFunctions.addSwitchEvent('screw-dealer')
+myFunctions.addSwitchEvent('farmers-hand')
 
-addThemeEvent('solid-red')
-addThemeEvent('solid-blue')
-addThemeEvent('red-grid')
-
-// function to add functionality to buttons in main menu and options menus
-function addButtonEvent(attr, name, callback) {
-    let button = document.querySelector(`[${attr} = ${name}]`)
-    button.addEventListener('click', callback)
-}
-
-function addSliderEvent(name) {
-    let slider = document.querySelector(`#${name}`)
-    slider.addEventListener('input', (e) => {
-        document.querySelector(`#${name}umeNum`).innerHTML = e.target.value;
-        localStorage.setItem(`${name}umeNum`, e.target.value)
-    })
-}
-
-function addSwitchEvent(id){
-    let switchButton = document.querySelector(`#${id}`)
-    switchButton.addEventListener('change', (e) => {
-        localStorage.setItem(id, e.target.checked)
-    })
-}
-
-function addThemeEvent(id){
-    let card = document.querySelector(`#${id}`)
-
-    card.addEventListener('click', (e) => {
-        let themes = document.querySelector('#themes')
-        for(key in themes.children){
-            if(typeof themes.children[key] == 'object'){
-                themes.children[key].classList = 'not-highlighted'
-            }
-        }
-        e.currentTarget.classList = 'highlighted'
-        localStorage.setItem('theme', e.currentTarget.id)
-    })
-
-    card.addEventListener('mouseover', (e) => {
-        if(localStorage.getItem('theme') != e.currentTarget.id){
-            e.currentTarget.classList.remove('not-highlighted')
-            e.currentTarget.classList.add('highlighted')
-        }
-    })
-
-    card.addEventListener('mouseleave', (e) => {
-        if(localStorage.getItem('theme') != e.currentTarget.id){
-            e.currentTarget.classList.remove('highlighted')
-            e.currentTarget.classList.add('not-highlighted')
-        }
-    })
-}
+myFunctions.addThemeEvent('solid-red')
+myFunctions.addThemeEvent('solid-blue')
+myFunctions.addThemeEvent('red-grid')
 
 
 
@@ -130,5 +79,4 @@ window.onload = () => {
     }
 
 }
-
 
