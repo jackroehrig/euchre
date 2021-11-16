@@ -365,6 +365,77 @@ ul label {
 }
 
 
+/* Dealing From Players */
+.left-top-card {
+    position: fixed;
+    top: 42%;
+    left: 7vw;
+    height: 10vw;
+    transform: rotate(90deg);
+}
+
+.left-flipped-card {
+    position: fixed;
+    top: 42%;
+    left: 8.7vw;
+    height: 10vw;
+    transform: rotate(90deg);
+    z-index: -5;
+}
+
+.left-deal-card {
+    position: fixed;
+    top: 39%;
+    left: 8vw;
+    height: 10vw;
+}
+
+.left-up-deal {
+    animation: dealLeftUp 1s forwards;
+}
+
+@keyframes dealLeftUp {
+    from{}
+    to{
+        top: -25%;
+        left: 45%;
+    }
+}
+
+.left-right-deal {
+    animation: dealLeftRight 1s forwards;
+}
+
+@keyframes dealLeftRight {
+    from{}
+    to{
+        left: 100%;
+    }
+}
+
+.left-down-deal {
+    animation: dealLeftDown 1s forwards;
+}
+
+@keyframes dealLeftDown {
+    from{}
+    to{
+        top: 105%;
+        left: 45%;
+    }
+}
+
+.left-left-deal {
+    animation: dealLeftLeft 1s forwards;
+}
+
+@keyframes dealLeftLeft {
+    from{}
+    to{
+        left: -15%;
+    }
+}
+
 
 
 .hand {
