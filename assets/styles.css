@@ -56,10 +56,6 @@ h1 {
     width: 50vw;
 }
 
-.invisible {
-    display: none;
-}
-
 #close-settings,#close-game-options {
     font-size: 20px;
     margin-top: 10px;
@@ -463,7 +459,7 @@ ul label {
 @keyframes dealRight {
     from{}
     to{
-        right: -10%;
+        right: -12%;
     }
 }
 
@@ -495,7 +491,17 @@ ul label {
 .hand {
     height: 5vw;
     width: 25%;
-    border: 2px solid white;
+    position: absolute;
+}
+
+.covering {
+    height: 5vw;
+    width: 30%;
+    position: absolute;
+}
+
+.hand .card {
+    width: 8vw;
     position: absolute;
 }
 
@@ -530,7 +536,7 @@ ul label {
 
 #right-hand {
     right: -10vw;
-    top: 45%;
+    top: 50%;
     transform: rotate(270deg);
 }
 
@@ -550,7 +556,7 @@ ul label {
 }
 
 /* Pick Up Or Pass Menu */
-.pick-or-pass {
+#pick-or-pass {
     position: fixed;
     top: 60%;
     left: 40%;
@@ -560,29 +566,32 @@ ul label {
     background-color: rgb(44, 35, 20);
     border: 8px solid rgb(15, 12, 7);
     color: white;
-    font-size: 1vw;
+    font-size: 1.2vw;
     font-family: 'Mochiy Pop P One', sans-serif;
-    display: flex;
-    justify-content: space-evenly;
 }
 
-#pick-up .switch{
-    position: absolute;
-    left: 17.3%;
-    top: 70%;
+#pick-or-pass .switch{
+    margin: 1vw 5vw 1vw 3.2vw;
 }
 
 #pick-up{
-    width: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 1vw auto;
 }
 
-.pick-or-pass button {
-    height: 30%;
-    display: block;
-    margin: 0.5vw auto;
+#pick-up button {
+    border: none;
+    border-radius: 30px;
+    background-color: rgb(255, 255, 0);
+    font-family: 'Mochiy Pop P One', sans-serif;
+    margin: 2px;
 }
 
-.pick-or-pass button:hover {
+#pick-up button:hover{
+    margin: 0;
+    border: 2px solid white;
     cursor: pointer;
 }
 
@@ -671,7 +680,6 @@ ul label {
 }
 
 #pick-suit button{
-    box-sizing: border-box;
     border: none;
     border-radius: 30px;
     background-color: rgb(255, 255, 0);
@@ -685,6 +693,9 @@ ul label {
     cursor: pointer;
 }
 
-
+/* ALWAYS AT THE END */
+.invisible {
+    display: none;
+}
 
 

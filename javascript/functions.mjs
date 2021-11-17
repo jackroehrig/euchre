@@ -112,8 +112,6 @@ function addThemeEvent(id){
 
 async function startingDeal(playerHands){
 
-
-
     renderHands(playerHands)
 
     let centerArea = document.querySelector('#center-area')
@@ -159,7 +157,7 @@ async function startingDeal(playerHands){
             currentDealee.direction = 'up'
         }
 
-        await delay();
+        // await delay();
             
         if(degrees == 360){
             degrees = 90;
@@ -168,25 +166,25 @@ async function startingDeal(playerHands){
         }
 
         if(cards[i] == 'JS.png' || cards[i] == 'JC.png'){
-            await delay();
+            // await delay();
             document.querySelectorAll('.deal-card-left, .deal-card-right, .deal-card-up, .deal-card-down').forEach(card => card.remove())
 
             messageArea.innerHTML = currentDealee.name != 'You' ?`${currentDealee.name} has received the first deal!` : 'You have received the first deal!'
 
-            await delay()
+            // await delay()
 
             messageArea.innerHTML = ''
 
             switch(currentDealee.direction){
                 case 'up':
                     middleTopCard.classList.add('send-up')
-                    await delay()
+                    // await delay()
                     let playerToMove = playerHands.pop()
                     playerHands.unshift(playerToMove)
                     break;
                 case 'left':
                     middleTopCard.classList.add('send-left')
-                    await delay()
+                    // await delay()
                     for(let i = 0; i < 2; i++){
                         let playerToMove = playerHands.pop()
                         playerHands.unshift(playerToMove)
@@ -194,11 +192,11 @@ async function startingDeal(playerHands){
                     break;
                 case 'right':
                     middleTopCard.classList.add('send-right')
-                    await delay()
+                    // await delay()
                     break;
                 case 'down':
                     middleTopCard.classList.add('send-down')
-                    await delay()
+                    // await delay()
                     for(let i = 0; i < 3; i++){
                         let playerToMove = playerHands.pop()
                         playerHands.unshift(playerToMove)
@@ -215,9 +213,52 @@ async function startingDeal(playerHands){
     }
 }
 
-function renderHands(playerHands){
+function renderHands(playerHands, needToVerify = false){
     let nameElems = document.querySelectorAll('p')
     playerHands.forEach((player, index) => nameElems[index].innerHTML = player.name)
+    
+    if(playerHands[0].hand[0]) {
+        let cardAreas = document.querySelectorAll('.hand')
+        playerHands.forEach((player, index1) => {
+            player.hand.forEach((cardLink, index2) => {
+                if(index1 == 1){
+                    let newCard = document.createElement('img')
+                    newCard.src = `../assets/images/card_fronts/${cardLink}`
+                    newCard.alt = cardLink
+                    newCard.style.left = `${index2 * 20}%`
+                    newCard.classList.add('card')
+                    cardAreas[index1].append(newCard)
+                } else {
+                    let newCard = document.createElement('img')
+                    newCard.src = theme.src
+                    newCard.alt = theme.alt
+                    newCard.style.left = `${index2 * 20}%`
+                    newCard.classList.add('card')
+                    cardAreas[index1].append(newCard)
+                }
+            })
+        })
+    }
+
+    console.log(needToVerify)
+    if(needToVerify){
+        let covering = document.createElement('div')
+        covering.classList.add('covering')
+        covering.setAttribute('id', 'bottom-hand')
+        covering.style.zIndex = '1000'
+        covering.style.backgroundColor = 'black';
+        document.body.append(covering)
+
+        let question = document.createElement('h2')
+        question.innerHTML = `Please verify you are ${playerHands[1].name}`
+
+        let button = document.createElement('button')
+        button.innerHTML = `I am ${playerHands[1].name}`
+
+        button.addEventListener('click', () => {
+            covering.classList.add(invisible)
+        })
+    }
 }
 
 
@@ -233,7 +274,7 @@ async function dealCards(name, playerHands){
     topCard.alt = theme.alt
     topCard.classList.add('top-card')
     document.body.append(topCard)
-    await delay()
+    // await delay()
     messageArea.innerHTML = ''
 
     let deal = {
@@ -281,7 +322,7 @@ async function dealCards(name, playerHands){
             }
             deckLocation++
             cardsToSend--
-            await delay(500)
+            // await delay(500)
         }
     }
     let flippedCard = document.createElement('img')
@@ -290,12 +331,15 @@ async function dealCards(name, playerHands){
     flippedCard.classList.add('flipped-card')
     document.body.append(flippedCard)
 
-    await delay(3500)
+    // await delay(3500)
     
     topCard.classList.add("top-card-to-side")
     flippedCard.classList.add('move-to-center')
 
-    document.querySelector('.move-to-center').addEventListener('animationend', () => document.querySelector('#pick-or-pass-box').classList.remove('invisible'))
+    document.querySelector('.move-to-center').addEventListener('animationend', () => {
+        document.querySelector('#pick-or-pass').classList.remove('invisible')
+        renderHands(playerHands, true)
+    })
 
     let flippedSuit;
 
@@ -319,10 +363,11 @@ async function dealCards(name, playerHands){
 
 function startGame(flippedSuit, dealersName, playerHands){
     let goAlone = document.getElementById('go-alone')
-    let goAlonePlayer
+    let goAlonePlayer;
     let dealersDirection;
     const trump = flippedSuit;
     let flippedCard = document.querySelector('.flipped-card')
+    let actionBox = document.querySelector('#pick-up')
 
     playerHands.forEach((player, index) => {
         if(player.name == dealersName) {
@@ -348,7 +393,7 @@ function startGame(flippedSuit, dealersName, playerHands){
 
         if(goAlone.checked){
             goAlonePlayer = playerHands.pop()
-            renderHands(playerHands)
+            renderHands(playerHands, true)
         }
     })
 
@@ -356,13 +401,15 @@ function startGame(flippedSuit, dealersName, playerHands){
 
         if(dealersDirection == 1) {
             flippedCard.classList.add('dealer-passed')
-            document.querySelector('.suit-or-pass').classList.remove('invisible')
+            while (actionBox.firstChild) {
+                actionBox.removeChild(actionBox.firstChild);
+            }
             renderSuitButtons(flippedSuit)
         }
 
         let playerToMove = playerHands.shift()
         playerHands.push(playerToMove)
-        renderHands(playerHands)
+        renderHands(playerHands, true)
 
         if(dealersDirection != 0){
             dealersDirection--
@@ -384,7 +431,7 @@ function renderSuitButtons(flippedSuit){
             let newSuitButton = document.createElement('button')
             newSuitButton.innerHTML = suit
             newSuitButton.id = `${suit.toLowerCase()}-button`
-            document.querySelector('#pick-suit').append(newSuitButton)
+            document.querySelector('#pick-up').append(newSuitButton)
         }
     })
 }
