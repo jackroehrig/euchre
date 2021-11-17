@@ -5,16 +5,88 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hearts</title>
+
+    <!-- Fonts, Libraries, etc. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap" rel="stylesheet">
+
+    <!-- My Files -->
     <link rel="stylesheet" href='../assets/styles.css'>
     <script src='../javascript/functions.mjs' type='module' defer></script>
     <script src='../javascript/play_multiplayer.js' type='module' defer></script>
 </head>
 <body>
     <!-- Menu Button -->
-    <button class="menu-button" onclick="window.location.href='http://127.0.0.1:5500/index.html'">Menu</button>
+    <button class="menu-button">Menu</button>
+
+    <!-- Beginning Deal -->
+    <div id='center-area'>
+        <h2 id='message-area'></h2>
+        <img class='top-card' src='' alt="">
+    </div>
 
     <!-- Hands -->
+    <div class='hand' id='right-hand'></div>
+    <p class='name' id='right-name'></p>
+    <div class='hand' id='bottom-hand'></div>
+    <p class='name' id='bottom-name'></p>
+    <div class='hand' id='left-hand'></div>
+    <p class='name' id='left-name'></p>
     <div class='hand' id='top-hand'></div>
+    <p class='name' id='top-name'></p>
+
+    <!-- Player Names -->
+    <div class='invisible' id='player-names'>
+        <h2>Please enter the player names.</h2>
+        <form>
+            <label for='player1Name'>Player 1:</label>
+            <input type='text' id='player1Name'>
+            <br>
+            <label for='player2Name'>Player 2:</label>
+            <input type='text' id='player2Name'>
+            <br>
+            <label for='player3Name'>Player 3:</label>
+            <input type='text' id='player3Name'>
+            <br>
+            <label for='player4Name'>Player 4:</label>
+            <input type='text' id='player4Name'>
+            <br>
+            <button id='multiplayerStart' class='start-button'>Start</button>
+        </form>
+    </div>
+
+    <!-- Pick Up Or Pass Menu -->
+
+    <div id='pick-or-pass-box' class='invisible'>
+        <div class="pick-or-pass">
+            <div id='pick-up'>
+                <button id='pick-button'>Pick Up</button>
+                <label for='go-alone'>
+                    Go Alone <br>
+                    <div class='switch'>
+                        <input type='checkbox' name='go-alone' id='go-alone'>                
+                        <span class='slider round'></span>
+                    </div>
+                </label>
+            </div>
+            <button id='pass-button'>Pass</button>
+        </div>
+    </div>
+
+    <!-- Pick Suit Or Pass Menu -->
+    <div class="suit-or-pass invisible">
+        <div id='pick-suit'>
+            
+        </div>
+        <label for='go-alone'>
+            Go Alone <br>
+            <div class='switch'>
+                <input type='checkbox' name='go-alone' id='go-alone'>                
+                <span class='slider round'></span>
+            </div>
+        </label>
+    </div>
     
 </body>
 </html>

@@ -10,14 +10,6 @@ const theme = {
     alt: ''
 }
 
-const hands = {
-    left: [],
-    right: [],
-    down: [],
-    up: [],
-    center: []
-}
-
 switch(localStorage.getItem('theme')){
     case 'solid-red':
         theme.src = '../assets/images/card_backs/solid_red_card_back.png';
@@ -118,115 +110,135 @@ function addThemeEvent(id){
     })
 }
 
-// async function startingDeal(){
-//     let centerArea = document.querySelector('#center-area')
-//     let middleTopCard = document.querySelector('.top-card')
+async function startingDeal(playerHands){
 
-//     middleTopCard.src = theme.src
-//     middleTopCard.alt = theme.alt
 
-//     messageArea.innerHTML = 'Dealing for first black Jack to see who deals first...'
-//     await delay();
-//     await delay();
-//     messageArea.innerHTML = ''
 
-//     shuffleCards(cards)
-//     let firstDeal = Math.floor(Math.random() * 4) + 1
-//     let degrees = 90 * firstDeal;
-//     let currentDealee = {};
-//     for(let i = 0; i < cards.length; i++){
-//         let cardToDeal = document.createElement('img')
-//         centerArea.append(cardToDeal)
-//         cardToDeal.src = `../assets/images/card_fronts/${cards[i]}`;
-//         cardToDeal.style.transform = `rotate(${degrees}deg)`;
-//         cardToDeal.style.zIndex = -1;
-//         if(degrees == 90){
-//             cardToDeal.style.left = '48.5%';
-//             cardToDeal.classList.add('deal-card-right')
-//             currentDealee.name = document.querySelector('#right-name').innerHTML
-//             currentDealee.direction = 'right'
-//         } else if(degrees == 180){
-//             cardToDeal.style.left = '46.75%';
-//             cardToDeal.classList.add('deal-card-down')
-//             currentDealee.name = document.querySelector('#bottom-name').innerHTML
-//             currentDealee.direction = 'down'
-//         } else if(degrees == 270){
-//             cardToDeal.style.left = '45%';
-//             cardToDeal.classList.add('deal-card-left')
-//             currentDealee.name = document.querySelector('#left-name').innerHTML
-//             currentDealee.direction = 'left'
-//         } else {
-//             cardToDeal.style.left = '46.75%';
-//             cardToDeal.style.top = '37.8%';
-//             cardToDeal.classList.add('deal-card-up')
-//             currentDealee.name = document.querySelector('#top-name').innerHTML
-//             currentDealee.direction = 'up'
-//         }
+    renderHands(playerHands)
 
-//         await delay();
+    let centerArea = document.querySelector('#center-area')
+    let middleTopCard = document.querySelector('.top-card')
+
+    middleTopCard.src = theme.src
+    middleTopCard.alt = theme.alt
+
+    messageArea.innerHTML = 'Dealing for first black Jack to see who deals first...'
+    await delay(2000);
+    messageArea.innerHTML = ''
+
+    shuffleCards(cards)
+    let firstDeal = Math.floor(Math.random() * 4) + 1
+    let degrees = 90 * firstDeal;
+    let currentDealee = {};
+    for(let i = 0; i < cards.length; i++){
+        let cardToDeal = document.createElement('img')
+        centerArea.append(cardToDeal)
+        cardToDeal.src = `../assets/images/card_fronts/${cards[i]}`;
+        cardToDeal.style.transform = `rotate(${degrees}deg)`;
+        cardToDeal.style.zIndex = -1;
+        if(degrees == 90){
+            cardToDeal.style.left = '48.5%';
+            cardToDeal.classList.add('deal-card-right')
+            currentDealee.name = document.querySelector('#right-name').innerHTML
+            currentDealee.direction = 'right'
+        } else if(degrees == 180){
+            cardToDeal.style.left = '46.75%';
+            cardToDeal.classList.add('deal-card-down')
+            currentDealee.name = document.querySelector('#bottom-name').innerHTML
+            currentDealee.direction = 'down'
+        } else if(degrees == 270){
+            cardToDeal.style.left = '45%';
+            cardToDeal.classList.add('deal-card-left')
+            currentDealee.name = document.querySelector('#left-name').innerHTML
+            currentDealee.direction = 'left'
+        } else {
+            cardToDeal.style.left = '46.75%';
+            cardToDeal.style.top = '37.8%';
+            cardToDeal.classList.add('deal-card-up')
+            currentDealee.name = document.querySelector('#top-name').innerHTML
+            currentDealee.direction = 'up'
+        }
+
+        await delay();
             
-//         if(degrees == 360){
-//             degrees = 90;
-//         } else {
-//             degrees += 90;
-//         }
+        if(degrees == 360){
+            degrees = 90;
+        } else {
+            degrees += 90;
+        }
 
-//         if(cards[i] == 'JS.png' || cards[i] == 'JC.png'){
-//             await delay();
-//             document.querySelectorAll('.deal-card-left, .deal-card-right, .deal-card-up, .deal-card-down').forEach(card => card.remove())
+        if(cards[i] == 'JS.png' || cards[i] == 'JC.png'){
+            await delay();
+            document.querySelectorAll('.deal-card-left, .deal-card-right, .deal-card-up, .deal-card-down').forEach(card => card.remove())
 
-//             messageArea.innerHTML = currentDealee.name != 'You' ?`${currentDealee.name} has received the first deal!` : 'You have received the first deal!'
+            messageArea.innerHTML = currentDealee.name != 'You' ?`${currentDealee.name} has received the first deal!` : 'You have received the first deal!'
 
-//             await delay()
+            await delay()
 
-//             messageArea.innerHTML = ''
+            messageArea.innerHTML = ''
 
-//             switch(currentDeal.direction){
-//                 case 'up':
-//                     middleTopCard.classList.add('send-up')
-//                     await delay()
-//                     dealAI_up(currentDealee.name)
-//                     break;
-//                 case 'left':
-//                     middleTopCard.classList.add('send-left')
-//                     await delay()
-//                     dealAI_left(currentDealee.name)
-//                     break;
-//                 case 'right':
-//                     middleTopCard.classList.add('send-right')
-//                     await delay()
-//                     dealAI_right(currentDealee.name)
-//                     break;
-//                 case 'down':
-//                     middleTopCard.classList.add('send-down')
-//                     await delay()
-//                     dealAI_down(currentDealee.name)
-//                     break;
-//             }
+            switch(currentDealee.direction){
+                case 'up':
+                    middleTopCard.classList.add('send-up')
+                    await delay()
+                    let playerToMove = playerHands.pop()
+                    playerHands.unshift(playerToMove)
+                    break;
+                case 'left':
+                    middleTopCard.classList.add('send-left')
+                    await delay()
+                    for(let i = 0; i < 2; i++){
+                        let playerToMove = playerHands.pop()
+                        playerHands.unshift(playerToMove)
+                    }
+                    break;
+                case 'right':
+                    middleTopCard.classList.add('send-right')
+                    await delay()
+                    break;
+                case 'down':
+                    middleTopCard.classList.add('send-down')
+                    await delay()
+                    for(let i = 0; i < 3; i++){
+                        let playerToMove = playerHands.pop()
+                        playerHands.unshift(playerToMove)
+                    }
+                    break;
+            }
 
-//             break;
-//         }
-//     }
-// }
+            dealCards(playerHands[0].name, playerHands)
 
-dealAI_left('Bart')
+            renderHands(playerHands)
 
-async function dealAI_left(name){
+            break;
+        }
+    }
+}
+
+function renderHands(playerHands){
+    let nameElems = document.querySelectorAll('p')
+    playerHands.forEach((player, index) => nameElems[index].innerHTML = player.name)
+}
+
+
+// Once deal is decided and cards are deal then the person to the left of the dealer must come to the screen
+
+async function dealCards(name, playerHands){
     messageArea.innerHTML = `It is ${name}'s deal...`
     
     shuffleCards(cards)
 
-    let leftTopCard = document.createElement('img')
-    leftTopCard.src = theme.src
-    leftTopCard.alt = theme.alt
-    leftTopCard.classList.add('left-top-card')
-    document.body.append(leftTopCard)
+    let topCard = document.createElement('img')
+    topCard.src = theme.src
+    topCard.alt = theme.alt
+    topCard.classList.add('top-card')
+    document.body.append(topCard)
     await delay()
     messageArea.innerHTML = ''
 
     let deal = {
         number: [2, 3, 2, 3, 3, 2, 3, 2],
-        direction: 'up'
+        direction: 'down'
     }
 
     let deckLocation = 0;
@@ -241,54 +253,140 @@ async function dealAI_left(name){
             document.body.append(newCard)
             switch(deal.direction){
                 case 'up':
-                    newCard.style.transform = 'rotate(40deg)'
-                    newCard.classList.add('left-deal-card')
-                    newCard.classList.add('left-up-deal')
+                    newCard.style.transform = 'rotate(-50deg)'
+                    newCard.classList.add('deal-card')
+                    newCard.classList.add('up-deal')
+                    playerHands[0].hand.push(cards[deckLocation])
                     if(cardsToSend == 1) deal.direction = 'right'
                     break;
                 case 'right':
-                    newCard.classList.add('left-top-card')
-                    newCard.classList.add('left-right-deal')
+                    newCard.classList.add('top-card')
+                    newCard.classList.add('right-deal')
+                    playerHands[1].hand.push(cards[deckLocation])
                     if(cardsToSend == 1) deal.direction = 'down'
                     break;
                 case 'down':
-                    newCard.style.transform = 'rotate(140deg)'
-                    newCard.classList.add('left-deal-card')
-                    newCard.classList.add('left-down-deal')
+                    newCard.style.transform = 'rotate(-130deg)'
+                    newCard.style.top = '43%'
+                    newCard.classList.add('deal-card')
+                    newCard.classList.add('down-deal')
+                    playerHands[2].hand.push(cards[deckLocation])
                     if(cardsToSend == 1) deal.direction = 'left'
                     break;
                 case 'left':
-                    newCard.classList.add('left-top-card')
-                    newCard.classList.add('left-left-deal')
+                    newCard.classList.add('top-card')
+                    newCard.classList.add('left-deal')
+                    playerHands[3].hand.push(cards[deckLocation])
                     if(cardsToSend == 1) deal.direction = 'up'
             }
-            hands[deal.direction].push(cards[deckLocation])
             deckLocation++
             cardsToSend--
+            await delay(500)
         }
-        // await delay()
     }
-    let topCard = document.createElement('img')
-    topCard.src = `../assets/images/card_fronts/${cards[20]}`
-    topCard.alt = cards[20]
-    topCard.classList.add('left-flipped-card')
-    document.body.append(topCard)
+    let flippedCard = document.createElement('img')
+    flippedCard.src = `../assets/images/card_fronts/${cards[20]}`
+    flippedCard.alt = cards[20]
+    flippedCard.classList.add('flipped-card')
+    document.body.append(flippedCard)
+
+    await delay(3500)
+    
+    topCard.classList.add("top-card-to-side")
+    flippedCard.classList.add('move-to-center')
+
+    document.querySelector('.move-to-center').addEventListener('animationend', () => document.querySelector('#pick-or-pass-box').classList.remove('invisible'))
+
+    let flippedSuit;
+
+    switch(cards[20][1]){
+        case 'C':
+            flippedSuit = 'clubs';
+            break;
+        case 'D':
+            flippedSuit = 'diamonds';
+            break;
+        case 'H':
+            flippedSuit = 'hearts';
+            break;
+        case 'S':
+            flippedSuit = 'spades';
+            break;
+    }
+
+    startGame(flippedSuit, name, playerHands)
 }
 
-function dealAI_right(name){
+function startGame(flippedSuit, dealersName, playerHands){
+    let goAlone = document.getElementById('go-alone')
+    let goAlonePlayer
+    let dealersDirection;
+    const trump = flippedSuit;
+    let flippedCard = document.querySelector('.flipped-card')
 
+    playerHands.forEach((player, index) => {
+        if(player.name == dealersName) {
+            dealersDirection = index
+        }
+    })
+
+    addButtonEvent('id', 'pick-button', () => {
+        switch(dealersDirection){
+            case 0:
+                flippedCard.classList.add('move-right')
+                break;
+            case 1:
+                flippedCard.classList.add('move-down')
+                break;
+            case 2:
+                flippedCard.classList.add('move-left')
+                break;
+            case 3:
+                flippedCard.classList.add('move-up')
+                break;
+        }
+
+        if(goAlone.checked){
+            goAlonePlayer = playerHands.pop()
+            renderHands(playerHands)
+        }
+    })
+
+    addButtonEvent('id', 'pass-button', () => {
+
+        if(dealersDirection == 1) {
+            flippedCard.classList.add('dealer-passed')
+            document.querySelector('.suit-or-pass').classList.remove('invisible')
+            renderSuitButtons(flippedSuit)
+        }
+
+        let playerToMove = playerHands.shift()
+        playerHands.push(playerToMove)
+        renderHands(playerHands)
+
+        if(dealersDirection != 0){
+            dealersDirection--
+        } else {
+            dealersDirection = 3
+        }
+
+    })
 }
 
-function dealAI_up(name){
-
+function delay(length = 1000){
+    return new Promise(resolve => setTimeout(resolve, length))
 }
 
-function dealAI_down(name){
-
-}
-
-function delay(){
-    return new Promise(resolve => setTimeout(resolve, 1000))
+function renderSuitButtons(flippedSuit){
+    let suits = ['Spades', 'Hearts', 'Diamonds', 'Clubs']
+    suits.forEach(suit => {
+        if(suit.toLowerCase() != flippedSuit){
+            let newSuitButton = document.createElement('button')
+            newSuitButton.innerHTML = suit
+            newSuitButton.id = `${suit.toLowerCase()}-button`
+            document.querySelector('#pick-suit').append(newSuitButton)
+        }
+    })
 }
 
 function shuffleCards(array) {
@@ -301,6 +399,5 @@ function shuffleCards(array) {
     return array
 }
 
-export {addButtonEvent, addSliderEvent, addSwitchEvent, addThemeEvent, cards}
+export {addButtonEvent, addSliderEvent, addSwitchEvent, addThemeEvent, startingDeal, cards}
 
-// startingDeal

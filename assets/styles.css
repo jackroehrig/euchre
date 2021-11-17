@@ -274,6 +274,24 @@ ul label {
     left: 45%;
 }
 
+/* Player Names Form */
+#player-names {
+    position: fixed;
+    top: 20%;
+    left: 30%;
+    width: 40%;
+    height: 60%;
+    border-radius: 10px;
+    background-color: rgb(44, 35, 20);
+    border: 8px solid rgb(15, 12, 7);
+    color: white;
+    font-family: 'Mochiy Pop P One', sans-serif;
+}
+
+#player-names input {
+    margin: 1vw auto;
+}
+
 /* Card Dealing Animation From the Center */
 .deal-card-left {
     animation: dealCardLeft 1s forwards;
@@ -359,80 +377,116 @@ ul label {
 @keyframes sendDown {
     0%{}
     100%{
-        top: 49vw;
+        top: 100%;
         transform: rotate(360deg);
     }
 }
 
 
-/* Dealing From Players */
-.left-top-card {
+/* Dealing */
+.top-card {
     position: fixed;
-    top: 42%;
-    left: 7vw;
+    top: 40%;
+    right: 7vw;
     height: 10vw;
-    transform: rotate(90deg);
+    transform: rotate(-90deg);
 }
 
-.left-flipped-card {
+.top-card-to-side {
+    animation: moveDeckToSide 1s forwards;
+}
+
+@keyframes moveDeckToSide {
+    from{}
+    to{
+        right: 1vw;
+        top: 85%;
+        transform: rotate(0deg);
+    }
+}
+
+.flipped-card {
     position: fixed;
-    top: 42%;
-    left: 8.7vw;
+    top: 40%;
+    right: 8.7vw;
     height: 10vw;
     transform: rotate(90deg);
     z-index: -5;
+    animation: moveToTop 3s forwards;
 }
 
-.left-deal-card {
+@keyframes moveToTop {
+    0%{}
+    50%{
+        right: 20vw;
+    }
+    100%{
+        z-index: 10;
+        right: 8.7vw;
+    }
+}
+
+.move-to-center {
+    animation: moveToCenter 2s forwards
+}
+
+@keyframes moveToCenter {
+    from{z-index: 10;}
+    to{
+        right: 46.5%;
+    }
+}
+
+.deal-card {
     position: fixed;
-    top: 39%;
-    left: 8vw;
+    top: 42%;
+    right: 7vw;
     height: 10vw;
 }
 
-.left-up-deal {
-    animation: dealLeftUp 1s forwards;
+.up-deal {
+    animation: dealUp 1s forwards;
 }
 
-@keyframes dealLeftUp {
+@keyframes dealUp {
     from{}
     to{
         top: -25%;
-        left: 45%;
+        right: 45%;
     }
 }
 
-.left-right-deal {
-    animation: dealLeftRight 1s forwards;
+.right-deal {
+    animation: dealRight 1s forwards;
 }
 
-@keyframes dealLeftRight {
+@keyframes dealRight {
     from{}
     to{
-        left: 100%;
+        right: -10%;
     }
 }
 
-.left-down-deal {
-    animation: dealLeftDown 1s forwards;
+.down-deal {
+    animation: dealDown 1s forwards;
 }
 
-@keyframes dealLeftDown {
+@keyframes dealDown {
     from{}
     to{
         top: 105%;
-        left: 45%;
+        right: 45%;
     }
 }
 
-.left-left-deal {
-    animation: dealLeftLeft 1s forwards;
+.left-deal {
+    animation: dealLeft 1s forwards;
 }
 
-@keyframes dealLeftLeft {
+@keyframes dealLeft {
     from{}
     to{
-        left: -15%;
+        right: 100%;
     }
 }
 
@@ -459,8 +513,8 @@ ul label {
 }
 
 #top-name {
-    top: 1vw;
-    left: 32vw;
+    top: 1%;
+    left: 30%;
 }
 
 #left-hand {
@@ -470,8 +524,8 @@ ul label {
 }
 
 #left-name {
-    left: 1vw;
-    top: 9.5vw;
+    left: 1%;
+    top: 18%;
 }
 
 #right-hand {
@@ -481,8 +535,8 @@ ul label {
 }
 
 #right-name {
-    right: 1.3vw;
-    top: 9.5vw;
+    right: 1%;
+    top: 18%;
 }
 
 #bottom-hand {
@@ -495,8 +549,142 @@ ul label {
     left: 32vw;
 }
 
+/* Pick Up Or Pass Menu */
+.pick-or-pass {
+    position: fixed;
+    top: 60%;
+    left: 40%;
+    width: 20%;
+    height: 20%;
+    border-radius: 10px;
+    background-color: rgb(44, 35, 20);
+    border: 8px solid rgb(15, 12, 7);
+    color: white;
+    font-size: 1vw;
+    font-family: 'Mochiy Pop P One', sans-serif;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#pick-up .switch{
+    position: absolute;
+    left: 17.3%;
+    top: 70%;
+}
+
+#pick-up{
+    width: 50%;
+}
+
+.pick-or-pass button {
+    height: 30%;
+    display: block;
+    margin: 0.5vw auto;
+}
+
+.pick-or-pass button:hover {
+    cursor: pointer;
+}
+
+/* Sending Card to Dealer Animation */
+
+.move-right {
+    animation: moveRight 1s forwards;
+}
+
+@keyframes moveRight {
+    from{right: 46.5%}
+    to{
+        right: -10%;
+    }
+}
+
+.move-left {
+    animation: moveLeft 1s forwards;
+}
+
+@keyframes moveLeft {
+    from{right: 46.5%}
+    to{
+        right: 102vw;
+    }
+}
+
+.move-up {
+    animation: moveUp 1s forwards;
+}
+
+@keyframes moveUp {
+    from{right: 46.5%}
+    to{
+        right: 46.5%;
+        transform: rotate(0deg);
+        top: -10vw;
+    }
+}
+
+.move-down {
+    animation: moveDown 1s forwards;
+}
+
+@keyframes moveDown {
+    from{right: 46.5%}
+    to{
+        right: 46.5%;
+        transform: rotate(0deg);
+        top: 80vw;
+    }
+}
+
+.dealer-passed {
+    animation: moveToSide 2s forwards
+}
+
+@keyframes moveToSide {
+    from{right: 46.5%}
+    to{
+        right: 2.3vw;
+        top: 85%;
+        transform: rotate(0deg);
+    }
+}
+
+.suit-or-pass {
+    position: fixed;
+    top: 60%;
+    left: 40%;
+    width: 20%;
+    height: 20%;
+    border-radius: 10px;
+    background-color: rgb(44, 35, 20);
+    border: 8px solid rgb(15, 12, 7);
+    color: white;
+    font-size: 1vw;
+    font-family: 'Mochiy Pop P One', sans-serif;
+}
+
+#pick-suit{
+    margin: 1vw auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#pick-suit button{
+    box-sizing: border-box;
+    border: none;
+    border-radius: 30px;
+    background-color: rgb(255, 255, 0);
+    font-family: 'Mochiy Pop P One', sans-serif;
+    margin: 2px;
+}
+
+#pick-suit button:hover{
+    margin: 0;
+    border: 2px solid white;
+    cursor: pointer;
+}
 
 
-/* (Maybe 2 v. AI eventually) */
 
 

@@ -19,20 +19,21 @@ possible settings: volume, game options(farmers hand, screw the dealer,  etc.), 
 
 */
 
-import * as myFunctions from './functions.mjs';
+import * as myStuff from './functions.mjs';
 
 let settingsMenu = document.querySelector('.settings-menu')
 let gameOptionsMenu = document.querySelector('.game-options')
+// let names = [];
 
-myFunctions.addButtonEvent('name', 'play', () => gameOptionsMenu.classList.remove('invisible'))
-myFunctions.addButtonEvent('name', 'settings', () => settingsMenu.classList.remove('invisible'))
-myFunctions.addButtonEvent('name', 'exit', () => window.close())
+myStuff.addButtonEvent('name', 'play', () => gameOptionsMenu.classList.remove('invisible'))
+myStuff.addButtonEvent('name', 'settings', () => settingsMenu.classList.remove('invisible'))
+myStuff.addButtonEvent('name', 'exit', () => window.close())
 
 
-myFunctions.addButtonEvent('id', 'close-settings', () => settingsMenu.classList.add('invisible'))
-myFunctions.addButtonEvent('id', 'close-game-options', () => gameOptionsMenu.classList.add('invisible'))
+myStuff.addButtonEvent('id', 'close-settings', () => settingsMenu.classList.add('invisible'))
+myStuff.addButtonEvent('id', 'close-game-options', () => gameOptionsMenu.classList.add('invisible'))
 
-myFunctions.addButtonEvent('class', 'start-button', (e) => {
+myStuff.addButtonEvent('class', 'start-button', (e) => {
     e.preventDefault()
     if(document.querySelector('#computer').checked){
         window.location.href = 'play_AI.html'
@@ -43,16 +44,51 @@ myFunctions.addButtonEvent('class', 'start-button', (e) => {
     }
 })
 
-myFunctions.addSliderEvent('musicVol')
-myFunctions.addSliderEvent('soundVol')
-myFunctions.addSliderEvent('masterVol')
+// let playerOptions = document.getElementById('player-options')
+// let numbersLabel = document.createElement('label')
+// let label1 = document.createElement('label')
+// let playerNumber1 = document.createElement('input')
+// playerNumber1.type = 'text';
+// let label2 = document.createElement('label')
+// let playerNumber2 = document.createElement('input')
+// playerNumber2.type = 'text';
+// let label3 = document.createElement('label')
+// let playerNumber3 = document.createElement('input')
+// playerNumber3.type = 'text';
+// let label4 = document.createElement('label')
+// let playerNumber4 = document.createElement('input')
+// playerNumber4.type = 'text';
+// let namesElmArr = []
+// namesElmArr.push(numbersLabel, label1, playerNumber1, label2, playerNumber2, label3, playerNumber3, label4, playerNumber4)
 
-myFunctions.addSwitchEvent('screw-dealer')
-myFunctions.addSwitchEvent('farmers-hand')
+// document.querySelector('#multiplayer').addEventListener('change', () => {
+//     if(document.querySelector('#multiplayer').checked && !document.querySelector('[type = text]')){
+//         numbersLabel.innerHTML = 'Please enter the names of each player:'
+//         label1.innerHTML = 'Player 1:'
+//         label2.innerHTML = 'Player 2:'
+//         label3.innerHTML = 'Player 3:'
+//         label4.innerHTML = 'Player 4:'
+//         playerOptions.append(numbersLabel, document.createElement('br'), document.createElement('br'), label1, playerNumber1, document.createElement('br'), document.createElement('br'), label2, playerNumber2, document.createElement('br'), document.createElement('br'), label3, playerNumber3, document.createElement('br'), document.createElement('br'), label4, playerNumber4)
+//     } 
+// })
 
-myFunctions.addThemeEvent('solid-red')
-myFunctions.addThemeEvent('solid-blue')
-myFunctions.addThemeEvent('red-grid')
+// document.querySelector('#computer').addEventListener('change', () => {
+//     if(numbersLabel.innerHTML){
+//         namesElmArr.forEach(e => playerOptions.removeChild(e))
+//         document.querySelector('.start-button').getElementsByClassName.transform = 'translateY(100vw)'
+//     }
+// })
+
+myStuff.addSliderEvent('musicVol')
+myStuff.addSliderEvent('soundVol')
+myStuff.addSliderEvent('masterVol')
+
+myStuff.addSwitchEvent('screw-dealer')
+myStuff.addSwitchEvent('farmers-hand')
+
+myStuff.addThemeEvent('solid-red')
+myStuff.addThemeEvent('solid-blue')
+myStuff.addThemeEvent('red-grid')
 
 
 
@@ -79,4 +115,5 @@ window.onload = () => {
     }
 
 }
+
 

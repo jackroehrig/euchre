@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>Hearts</title>
 
     <!-- Fonts, libraries, etc. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
@@ -99,11 +99,15 @@
     <div class="game-options invisible">
         <div id='close-game-options'>X</div>
         <form>
-            <p>Play Vs. Computer or Multiplayer</p>
-            <input type='radio' id='computer' name='multi-ai'>
-            <label for='computer'>Computer</label>
-            <input type='radio' id='multiplayer' name='multi-ai'>
-            <label for='multiplayer'>Multiplayer</label>
+            <section id='player-options'>
+                <legend>Play Vs. Computer or Multiplayer</legend>
+                <br>
+                <input type='radio' id='computer' name='multi-ai'>
+                <label for='computer'>Computer</label>
+                <input type='radio' id='multiplayer' name='multi-ai'>
+                <label for='multiplayer'>Multiplayer</label>
+                <br>
+            </section>
             <p id='choose-option'></p>
             <button class='start-button'>Start</button>
         </form>
