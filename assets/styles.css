@@ -724,9 +724,23 @@ ul label {
 
 .decide-card {
     position: fixed;
-    left: 40%;
-    top: 70%;
+    left: 46%;
+    top: 61%;
     width: 10vw;
+    z-index: -1;
+}
+
+.dealer-card:hover{
+    cursor: pointer;
+}
+
+.decide-header {
+    color: white;
+    font-size: 1vw;
+    font-family: 'Mochiy Pop P One', sans-serif;
+    position: fixed;
+    left: 36%;
+    top: 82%;
 }
 
 /* ALWAYS AT THE END */
