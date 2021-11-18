@@ -500,6 +500,34 @@ ul label {
     position: absolute;
 }
 
+#verify-player{
+    position: fixed;
+    top: 60%;
+    left: 40%;
+    width: 20%;
+    height: 20%;
+    border-radius: 10px;
+    background-color: rgb(44, 35, 20);
+    border: 8px solid rgb(15, 12, 7);
+    color: white;
+    font-size: 1vw;
+    font-family: 'Mochiy Pop P One', sans-serif;
+}
+
+#verify-player button{
+    border: none;
+    border-radius: 30px;
+    background-color: rgb(255, 255, 0);
+    font-family: 'Mochiy Pop P One', sans-serif;
+    margin: 2px;
+}
+
+#verify-player button:hover{
+    margin: 0;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
 .hand .card {
     width: 8vw;
     position: absolute;
@@ -578,6 +606,7 @@ ul label {
     width: 100%;
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;
     margin: 1vw auto;
 }
 
@@ -691,6 +720,13 @@ ul label {
     margin: 0;
     border: 2px solid white;
     cursor: pointer;
+}
+
+.decide-card {
+    position: fixed;
+    left: 40%;
+    top: 70%;
+    width: 10vw;
 }
 
 /* ALWAYS AT THE END */

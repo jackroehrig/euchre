@@ -10,6 +10,12 @@ const theme = {
     alt: ''
 }
 
+let trump = '';
+
+let goAlonePlayer;
+
+let players;
+
 switch(localStorage.getItem('theme')){
     case 'solid-red':
         theme.src = '../assets/images/card_backs/solid_red_card_back.png';
@@ -112,6 +118,8 @@ function addThemeEvent(id){
 
 async function startingDeal(playerHands){
 
+    players = playerHands
+
     renderHands(playerHands)
 
     let centerArea = document.querySelector('#center-area')
@@ -204,9 +212,10 @@ async function startingDeal(playerHands){
                     break;
             }
 
+            renderHands(playerHands)
+            
             dealCards(playerHands[0].name, playerHands)
 
-            renderHands(playerHands)
 
             break;
         }
@@ -214,11 +223,20 @@ async function startingDeal(playerHands){
 }
 
 function renderHands(playerHands, needToVerify = false){
+    
     let nameElems = document.querySelectorAll('p')
+    let cardAreas = document.querySelectorAll('.hand')
+    nameElems.forEach(elem => elem.innerHTML = '')
+    cardAreas.forEach(area => {
+        while(area.firstChild){
+            area.removeChild(area.firstChild)
+        }
+    })
+
+
     playerHands.forEach((player, index) => nameElems[index].innerHTML = player.name)
     
     if(playerHands[0].hand[0]) {
-        let cardAreas = document.querySelectorAll('.hand')
         playerHands.forEach((player, index1) => {
             player.hand.forEach((cardLink, index2) => {
                 if(index1 == 1){
@@ -240,7 +258,6 @@ function renderHands(playerHands, needToVerify = false){
         })
     }
 
-    console.log(needToVerify)
     if(needToVerify){
         let covering = document.createElement('div')
         covering.classList.add('covering')
@@ -249,14 +266,17 @@ function renderHands(playerHands, needToVerify = false){
         covering.style.backgroundColor = 'black';
         document.body.append(covering)
 
-        let question = document.createElement('h2')
-        question.innerHTML = `Please verify you are ${playerHands[1].name}`
+        let verifyBox = document.getElementById('verify-player')
+        verifyBox.classList.remove('invisible')
 
-        let button = document.createElement('button')
-        button.innerHTML = `I am ${playerHands[1].name}`
+        document.querySelector('#verify-header').innerHTML = `Please verify you are ${playerHands[1].name}`
 
-        button.addEventListener('click', () => {
-            covering.classList.add(invisible)
+        let verifyButton = document.querySelector('#verify')
+        verifyButton.innerHTML = `I am ${playerHands[1].name}`
+
+        addButtonEvent('id', 'verify', () => {
+            covering.classList.add('invisible')
+            verifyBox.classList.add('invisible')
         })
     }
 }
@@ -343,7 +363,12 @@ async function dealCards(name, playerHands){
 
     let flippedSuit;
 
-    switch(cards[20][1]){
+    let tester;
+    cards[20][0] == '1' ? tester = cards[20][2] : tester = [20][1]
+
+    console.log(cards[20])
+    console.log(tester)
+    switch(tester){
         case 'C':
             flippedSuit = 'clubs';
             break;
@@ -358,14 +383,13 @@ async function dealCards(name, playerHands){
             break;
     }
 
-    startGame(flippedSuit, name, playerHands)
+    startRound(flippedSuit, name, playerHands)
 }
 
-function startGame(flippedSuit, dealersName, playerHands){
+function startRound(flippedSuit, dealersName, playerHands){
     let goAlone = document.getElementById('go-alone')
-    let goAlonePlayer;
     let dealersDirection;
-    const trump = flippedSuit;
+    trump = flippedSuit;
     let flippedCard = document.querySelector('.flipped-card')
     let actionBox = document.querySelector('#pick-up')
 
@@ -375,26 +399,44 @@ function startGame(flippedSuit, dealersName, playerHands){
         }
     })
 
-    addButtonEvent('id', 'pick-button', () => {
+    addButtonEvent('id', 'pick-button', async () => {
         switch(dealersDirection){
             case 0:
                 flippedCard.classList.add('move-right')
+                await delay()
+                let playerToMove = playerHands.pop()
+                playerHands.unshift(playerToMove)
+                renderHands(playerHands, true)
                 break;
             case 1:
                 flippedCard.classList.add('move-down')
                 break;
             case 2:
                 flippedCard.classList.add('move-left')
+                await delay()
+                playerToMove = playerHands.shift()
+                playerHands.push(playerToMove)
+                renderHands(playerHands, true)
                 break;
             case 3:
                 flippedCard.classList.add('move-up')
+                await delay()
+                for(let i = 0; i < 2; i++){
+                    let playerToMove = playerHands.pop()
+                    playerHands.unshift(playerToMove)
+                }
+                renderHands(playerHands, true)
                 break;
         }
 
+        await delay(1)
+        
         if(goAlone.checked){
             goAlonePlayer = playerHands.pop()
             renderHands(playerHands, true)
         }
+
+        dealerDecide(flippedCard)
     })
 
     addButtonEvent('id', 'pass-button', () => {
@@ -404,8 +446,9 @@ function startGame(flippedSuit, dealersName, playerHands){
             while (actionBox.firstChild) {
                 actionBox.removeChild(actionBox.firstChild);
             }
-            renderSuitButtons(flippedSuit)
-        }
+            dealersDirection--
+            renderSuitButtons(flippedSuit, dealersDirection)
+        } 
 
         let playerToMove = playerHands.shift()
         playerHands.push(playerToMove)
@@ -420,20 +463,73 @@ function startGame(flippedSuit, dealersName, playerHands){
     })
 }
 
-function delay(length = 1000){
-    return new Promise(resolve => setTimeout(resolve, length))
-}
-
-function renderSuitButtons(flippedSuit){
+function renderSuitButtons(flippedSuit, dealersDirection){
+    console.log(flippedSuit)
     let suits = ['Spades', 'Hearts', 'Diamonds', 'Clubs']
     suits.forEach(suit => {
         if(suit.toLowerCase() != flippedSuit){
             let newSuitButton = document.createElement('button')
             newSuitButton.innerHTML = suit
             newSuitButton.id = `${suit.toLowerCase()}-button`
+
             document.querySelector('#pick-up').append(newSuitButton)
+
+            addButtonEvent('id', `${suit.toLowerCase()}-button`, () => {
+                trump = suit.toLowerCase()
+                if(document.querySelector('#go-alone').checked){
+                    goAlonePlayer = players.pop()
+                    console.log(players)
+                    renderHands(players, true)
+                }
+                document.querySelector('#pick-or-pass').classList.add('invisible')
+                playRound()
+
+            })
         }
     })
+    let passButton = document.createElement('button')
+    passButton.innerHTML = 'Pass'
+    passButton.id = 'pass-button'
+    document.querySelector('#pick-up').append(passButton)
+     
+    addButtonEvent('id', 'pass-button', () => {
+        if(dealersDirection == 1) {
+            if(localStorage.getItem('screw-dealer')){
+                document.querySelector('#error-message').innerHTML = 'You must choose a suit.'
+            } else {
+                startRound(players[1].name, players)
+            }
+        } else {
+            let playerToMove = players.shift()
+            players.push(playerToMove)
+            renderHands(players, true)
+
+            if(dealersDirection != 0){
+                dealersDirection--
+            } else {
+                dealersDirection = 3
+            }
+        }
+    })
+}
+
+function dealerDecide(pickedUpCard){
+    document.querySelector('#pick-or-pass').classList.add('invisible')
+
+    let newCard = document.createElement('img')
+    newCard.src = pickedUpCard.src
+    newCard.classList.add('decide-card')
+}
+
+function playRound(){
+
+}
+
+
+// USEFULL FUNCTIONS
+
+function delay(length = 1000){
+    return new Promise(resolve => setTimeout(resolve, length))
 }
 
 function shuffleCards(array) {
