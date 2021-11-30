@@ -36,9 +36,9 @@ myStuff.addButtonEvent('id', 'close-game-options', () => gameOptionsMenu.classLi
 myStuff.addButtonEvent('class', 'start-button', (e) => {
     e.preventDefault()
     if(document.querySelector('#computer').checked){
-        window.location.href = 'play_AI.html'
+        window.location.href = 'html/play_AI.html'
     } else if(document.querySelector('#multiplayer').checked){
-        window.location.href = 'play_multiplayer.html'
+        window.location.href = 'html/play_multiplayer.html'
     } else {
         document.querySelector('#choose-option').innerHTML = 'Please choose either vs. Computer or Multiplayer.'
     }

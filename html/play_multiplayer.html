@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hearts</title>
+    <title>Euchre</title>
 
     <!-- Fonts, Libraries, etc. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,6 +18,11 @@
 </head>
 <body>
     <!-- Menu Button -->
+    <div id="scoreboard" class='invisible'>
+        <h3 id='team1'></h3>
+        <h3 id='team2'></h3>
+        <h3 id='trump'></h3>
+    </div>
     <button class="menu-button">Menu</button>
 
     <!-- Beginning Deal -->
@@ -28,13 +33,25 @@
 
     <!-- Hands -->
     <div class='hand' id='right-hand'></div>
-    <p class='name' id='right-name'></p>
+    <div class="name-area invisible" id='right-area'>
+        <p class='name' id='right-name'></p>
+        <p class='tricks' id='right-tricks'>0</p>
+    </div>
     <div class='hand' id='bottom-hand'></div>
-    <p class='name' id='bottom-name'></p>
+    <div class="name-area invisible" id='bottom-area'>
+        <p class='name' id='bottom-name'></p>
+        <p class='tricks' id='bottom-tricks'>0</p>
+    </div>
     <div class='hand' id='left-hand'></div>
-    <p class='name' id='left-name'></p>
+    <div class="name-area invisible" id='left-area'>
+        <p class='name' id='left-name'></p>
+        <p class='tricks' id='left-tricks'>0</p>
+    </div>
     <div class='hand' id='top-hand'></div>
-    <p class='name' id='top-name'></p>
+    <div class="name-area invisible" id='top-area'>
+        <p class='name' id='top-name'></p>
+        <p class='tricks' id='top-tricks'>0</p>
+    </div>
 
     <!-- Player Names -->
     <div class='invisible' id='player-names'>
@@ -58,10 +75,8 @@
 
     <!-- Pick Up Or Pass Menu -->
 
-    <div id="pick-or-pass" class='invisible'>
+    <div id="pick-or-passPRE">
         <div id='pick-up'>
-            <button id='pick-button'>Pick Up</button>
-            <button id='pass-button'>Pass</button>
         </div>
         <label for='go-alone'>
             Go Alone <br>
