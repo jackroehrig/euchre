@@ -1,7 +1,3 @@
-
-
-// function to add functionality to buttons in main menu and options menus
-
 const cards = [];
 let messageArea = document.querySelector('#message-area')
 
@@ -14,7 +10,10 @@ let dealer;
 
 let trump = '';
 
-let goAlonePlayer;
+let goAloneTeammate = {
+    player: null,
+    isDealer: false
+};
 
 let players;
 
@@ -27,6 +26,13 @@ let middleCards = [];
 let teamThatPicked;
 
 let nextDealer;
+
+let emptyPlayer = {
+    name: 'Empty',
+    isEmpty: true
+}
+
+let emptyCard = 'empty'
 
 switch(localStorage.getItem('theme')){
     case 'solid-red':
@@ -85,7 +91,11 @@ for(let i = 9; i < 15; i++){
 
 function addButtonEvent(attr, name, callback) {
     let button = document.querySelector(`[${attr} = ${name}]`)
-    button.addEventListener('click', callback)
+    if(!button){
+        document.querySelectorAll('.exit-button').forEach(elem => elem.addEventListener('click', callback))
+    } else {
+        button.addEventListener('click', callback)
+    }
 }
 
 function addSliderEvent(name) {
@@ -108,11 +118,11 @@ function addThemeEvent(id){
 
     card.addEventListener('click', (e) => {
         let themes = document.querySelector('#themes')
-        for(key in themes.children){
-            if(typeof themes.children[key] == 'object'){
-                themes.children[key].classList = 'not-highlighted'
+        Array.from(themes.children).forEach(child => {
+            if(typeof child == 'object'){
+                child.classList = 'not-highlighted'
             }
-        }
+        })
         e.currentTarget.classList = 'highlighted'
         localStorage.setItem('theme', e.currentTarget.id)
     })
@@ -134,7 +144,7 @@ function addThemeEvent(id){
 
 async function startingDeal(playerHands){
 
-    players = playerHands
+    players = [...playerHands]
 
     players.forEach(player => player.tricks = 0)
 
@@ -267,12 +277,13 @@ async function startingDeal(playerHands){
 // Once deal is decided and cards are deal then the person to the left of the dealer must come to the screen
 
 async function dealCards(name, playerHands){
-    players.forEach(player => player.tricks = 0)
+    playerHands.forEach(player => player.tricks = 0)
+    players = [...playerHands]
 
     document.querySelector('#scoreboard').classList.remove('invisible')
 
     renderScoreboard()
-
+    
     renderHands(playerHands)
 
     messageArea.innerHTML = `It is ${name}'s deal...`
@@ -383,6 +394,8 @@ function startRound(flippedSuit, dealersName, playerHands){
     let actionBox = document.querySelector('#pick-up')
 
     playerHands.forEach((player, index) => {
+        player.isEmpty = false
+
         if(player.name == dealersName) {
             dealersDirection = index
         }
@@ -405,17 +418,32 @@ function startRound(flippedSuit, dealersName, playerHands){
         teamThatPicked = players[1].team
         
         let playerToMove;
+
+        if(goAlone.checked){
+            goAloneTeammate.player = playerHands[3]
+            if(goAloneTeammate.player.name == dealersName){
+                goAloneTeammate.isDealer = true
+            }
+        }
+
+        goAlone.checked = false;
         
         switch(dealersDirection){
             case 0:
-                flippedCard.classList.add('move-right')
+                flippedCard.classList.add('move-right')   
                 await delay()
                 playerToMove = playerHands.pop()
                 playerHands.unshift(playerToMove)
+                if(goAloneTeammate.player){
+                    playerHands[0] = emptyPlayer
+                }
                 renderHands(playerHands, true)
                 break;
             case 1:
                 flippedCard.classList.add('move-down')
+                if(goAloneTeammate.player){
+                    playerHands[3] = emptyPlayer
+                }
                 renderHands(playerHands, false)
                 break;
             case 2:
@@ -423,27 +451,42 @@ function startRound(flippedSuit, dealersName, playerHands){
                 await delay()
                 playerToMove = playerHands.shift()
                 playerHands.push(playerToMove)
+                if(goAloneTeammate.player){
+                    playerHands[2] = emptyPlayer
+                }
                 renderHands(playerHands, true)
                 break;
             case 3:
                 flippedCard.classList.add('move-up')
-                await delay()
-                for(let i = 0; i < 2; i++){
+                if(!goAloneTeammate.player){  
+                    await delay()
+                    for(let i = 0; i < 2; i++){
+                        playerToMove = playerHands.pop()
+                        playerHands.unshift(playerToMove)
+                    }
+                    renderHands(playerHands, true)
+                } else {
+                    await delay()
                     playerToMove = playerHands.pop()
                     playerHands.unshift(playerToMove)
+                    if(goAloneTeammate.player){
+                        playerHands[0] = emptyPlayer
+                    }
+                    renderHands(playerHands, true)
                 }
-                renderHands(playerHands, true)
                 break;
-        }
-        
-        if(goAlone.checked){
-            goAlonePlayer = playerHands.pop()
-            renderHands(playerHands, true)
         }
 
         pickedUpCard = flippedCard
-        players = playerHands
-        dealerDecide(flippedCard)
+        players = [...playerHands]
+
+        document.querySelector('#pick-or-pass').classList.add('invisible')
+
+        if(!goAloneTeammate.isDealer){
+            dealerDecide(flippedCard)
+        } else {
+            playRound()
+        }
     })
 
     
@@ -454,22 +497,28 @@ function startRound(flippedSuit, dealersName, playerHands){
             while (actionBox.firstChild) {
                 actionBox.removeChild(actionBox.firstChild);
             }
-            dealersDirection--
-            renderSuitButtons(flippedSuit, dealersDirection)
         } 
         let playerToMove = playerHands.shift()
         playerHands.push(playerToMove)
-        renderHands(playerHands, true)
+        players = [...playerHands]
         if(dealersDirection != 0){
             dealersDirection--
         } else {
             dealersDirection = 3
         }
+        renderHands(playerHands, true)
+        if(dealersDirection == 0) {
+            renderSuitButtons(flippedSuit, 0)
+        }
+
+        goAlone.checked = false
     })
 }
 
 function renderSuitButtons(flippedSuit, dealersDirection){
     let suits = ['Spades', 'Hearts', 'Diamonds', 'Clubs']
+    let goAlone = document.getElementById('go-alone')
+
     suits.forEach(suit => {
         if(suit.toLowerCase() != flippedSuit){
             let newSuitButton = document.createElement('button')
@@ -479,27 +528,55 @@ function renderSuitButtons(flippedSuit, dealersDirection){
             document.querySelector('#pick-up').append(newSuitButton)
 
             addButtonEvent('id', `${suit.toLowerCase()}-button`, () => {
+
+                let dealersName = players[dealersDirection].name
+
+                if(goAlone.checked){
+                    goAloneTeammate.player = players[3]
+                    if(goAloneTeammate.player.name == dealersName){
+                        goAloneTeammate.isDealer = true
+                    }
+                }
+
+                goAlone.checked = false;
+
                 teamThatPicked = players[1].team
 
                 trump = suit.toLowerCase()
-                if(document.querySelector('#go-alone').checked){
-                    goAlonePlayer = players.pop()
-                    renderHands(players, true)
-                }
+
                 document.querySelector('#pick-or-pass').classList.add('invisible')
+
                 let playerToMove;
+                let playersCopy = [...players]
                 switch(dealersDirection){
+                    case 0:
+                        if(goAloneTeammate.player){
+                            players[3] = emptyPlayer
+                        }
+                        break;
                     case 1:
+                        if(goAloneTeammate.player){
+                            players[3] = emptyPlayer
+                        }
                         playerToMove = players.shift()
                         players.push(playerToMove)
                         break;
                     case 2:
-                        for(let i = 0; i < 2; i++){
+                        if(goAloneTeammate.player){
+                            players[3] = emptyPlayer
                             playerToMove = players.pop()
                             players.unshift(playerToMove)
+                        } else {
+                            for(let i = 0; i < 2; i++){
+                                playerToMove = players.pop()
+                                players.unshift(playerToMove)
+                            }
                         }
                         break;
                     case 3:
+                        if(goAloneTeammate.player){
+                            players[3] = emptyPlayer
+                        }
                         playerToMove = players.pop()
                         players.unshift(playerToMove)
                         break;
@@ -537,22 +614,16 @@ function renderSuitButtons(flippedSuit, dealersDirection){
                 dealCards(players[0].name, players)
             }
         } else {
+            dealersDirection == 0 ? dealersDirection = 3 : dealersDirection--
             let playerToMove = players.shift()
             players.push(playerToMove)
             renderHands(players, true)
-
-            if(dealersDirection != 0){
-                dealersDirection--
-            } else {
-                dealersDirection = 3
-            }
         }
+        goAlone.checked = false;
     })
 }
 
 function dealerDecide(pickedUpCard){
-    
-    document.querySelector('#pick-or-pass').classList.add('invisible')
 
     let newCard = document.createElement('img')
     newCard.src = pickedUpCard.src
@@ -575,8 +646,15 @@ function dealerDecide(pickedUpCard){
             newCard.remove()
             newHeader.remove()
             await delay(500)
-            playerToMove = players.shift()
-            players.push(playerToMove)
+            if(!players[2].isEmpty){
+                playerToMove = players.shift()
+                players.push(playerToMove)
+            } else {
+                for(let i = 0; i < 2; i++){
+                    playerToMove = players.pop()
+                    players.unshift(playerToMove)
+                }
+            }
             playRound()
             dealerHand.forEach(card => {
                 card.removeEventListener('click', (e) => {
@@ -593,12 +671,11 @@ function playRound(firstDidntPickSuit = true){
 }
 
 
-// USEFULL FUNCTIONS
-
 function renderHands(playerHands, needToVerify = false, playing = false){
     let nameElems = document.querySelectorAll('.name')
     let cardAreas = document.querySelectorAll('.hand')
     let trickNumbers = document.querySelectorAll('.tricks')
+    let nameAreas = document.querySelectorAll('.name-area')
 
     nameElems.forEach(elem => {
         elem.innerHTML = ''
@@ -613,10 +690,14 @@ function renderHands(playerHands, needToVerify = false, playing = false){
 
 
     playerHands.forEach((player, index) => {
-        if(player.name != dealer){
+        if(player.isEmpty){
+            nameAreas[index].classList.add('invisible')
+        } else if(player.name != dealer){
+            nameAreas[index].classList.contains('invisible') ? nameAreas[index].classList.remove('invisible') : null
             nameElems[index].innerHTML = player.name
             trickNumbers[index].innerHTML = player.tricks
         } else {
+            nameAreas[index].classList.contains('invisible') ? nameAreas[index].classList.remove('invisible') : null
             nameElems[index].innerHTML = `${player.name} (Dealer)`
             if(index == 1){
                 document.querySelector('#bottom-name').style.left = '23%';
@@ -624,28 +705,29 @@ function renderHands(playerHands, needToVerify = false, playing = false){
                 document.querySelector('#top-name').style.left = '25%';
             }
         }
-        // nameElems[index].parentElement.style.borderColor = `#${player.color}`
     })
     
     
     playerHands.forEach((player, index1) => {
-        player.hand.forEach((cardLink, index2) => {
-            if(index1 == 1){
-                let newCard = document.createElement('img')
-                newCard.src = `../assets/images/card_fronts/${cardLink}`
-                newCard.alt = cardLink
-                newCard.style.left = `${index2 * 20}%`
-                newCard.classList.add('card')
-                cardAreas[index1].append(newCard)
-            } else {
-                let newCard = document.createElement('img')
-                newCard.src = theme.src
-                newCard.alt = theme.alt
-                newCard.style.left = `${index2 * 20}%`
-                newCard.classList.add('card')
-                cardAreas[index1].append(newCard)
-            }
-        })
+        if(!player.isEmpty){ 
+            player.hand.forEach((cardLink, index2) => {   
+                if(index1 == 1){
+                    let newCard = document.createElement('img')
+                    newCard.src = `../assets/images/card_fronts/${cardLink}`
+                    newCard.alt = cardLink
+                    newCard.style.left = `${index2 * 20}%`
+                    newCard.classList.add('card')
+                    cardAreas[index1].append(newCard)
+                } else {
+                    let newCard = document.createElement('img')
+                    newCard.src = theme.src
+                    newCard.alt = theme.alt
+                    newCard.style.left = `${index2 * 20}%`
+                    newCard.classList.add('card')
+                    cardAreas[index1].append(newCard)
+                }
+            })
+        }
     })
 
     if(needToVerify){
@@ -670,50 +752,100 @@ function renderHands(playerHands, needToVerify = false, playing = false){
         })
     }
 
-    if(playing){
-        let playersCards = document.querySelectorAll('#bottom-hand img')
-        playersCards.forEach(card => {
-            card.addEventListener('mouseover', (e) => e.target.style.cursor = 'pointer')
-            card.addEventListener('click', handlePlayClick)
-        })
+    if(!playerHands[1].isEmpty){
+        if(playing){
+            let playersCards = document.querySelectorAll('#bottom-hand img')
+            playersCards.forEach(card => {
+                card.addEventListener('mouseover', (e) => e.target.style.cursor = 'pointer')
+                card.addEventListener('click', handlePlayClick)
+            })
+        }
+    } else {
+        middleCards.unshift(emptyCard)
+        if(middleCards.length != 4){
+            renderMiddle()
+            let playerToMove = players.shift()
+            players.push(playerToMove)
+            renderHands(players, true, true)
+        } else {
+            setUpWinnerFunc()
+        }
     }
 }
 
 function handlePlayClick(e){
     e.target.addEventListener('mouseover', (e) => e.target.style.cursor = 'initial')
     e.target.removeEventListener('click', handlePlayClick)
+
     players[1].hand.forEach((card, index) => {
         if(e.target.alt == card){
             players[1].hand.splice(index, 1)
         }
     })
+
     e.target.classList.remove('card')
     e.target.style = ''
+
     let playedCard = {
         img: e.target,
         player: ''
     }
+
     middleCards.unshift(playedCard)
     renderHands(players)
     document.body.append(playedCard.img)
     playedCard.img.classList.add('played-card')
-    if(middleCards.length != players.length){
-        setTimeout(() => {
-            renderMiddle()
+
+    let shouldFindWinner = false
+
+    if(players[2].isEmpty && middleCards.length == 3){
+        middleCards.push(emptyCard)
+        shouldFindWinner = true
+    }
+
+    if(middleCards.length == players.length){
+        shouldFindWinner = true
+    }
+
+    if(!shouldFindWinner){
+        setTimeout(async () => {
+            await renderMiddle()
+            if(players[2].isEmpty && middleCards.length <= 2){
+                middleCards.unshift(emptyCard)
+                await renderMiddle()
+                let playerToMove = players.shift()
+                players.push(playerToMove)
+            }
             let playerToMove = players.shift()
             players.push(playerToMove)
             renderHands(players, true, true)
         }, 1000)
     } else {
-        let trumpCards = [];
-        let firstSuit = middleCards[3].img.alt[1];
-        let firSuitCards = [];
+        setUpWinnerFunc()
+    }
+}
 
-        middleCards.forEach((card, index) => {
-            if(card.img.alt[0] == '1'){
-                card.img.alt = card.img.alt.slice(1)
-            }
+function setUpWinnerFunc(){
+    let trumpCards = [];
+    let firSuitCards = [];
+    middleCards.forEach(card => card !== 'empty' ? card.img.alt[0] == '1' ? card.img.alt = card.img.alt.slice(1) : null : null)
+    let firstSuitNum = middleCards[3] !== 'empty' ? middleCards[3].img.alt[0] : middleCards[2].img.alt[0]
+    let firstSuit = middleCards[3] !== 'empty' ? middleCards[3].img.alt[1] : middleCards[2].img.alt[1]
 
+    if(firstSuitNum == 'J'){
+        firstSuit == 'H' && trump == 'diamonds'
+        ? firstSuit = 'D'
+        : firstSuit == 'D' && trump == 'hearts'
+        ? firstSuit = 'H'
+        : firstSuit == 'S' && trump == 'clubs'
+        ? firstSuit = 'C'
+        : firstSuit == 'C' && trump == 'spades'
+        ? firstSuit = 'S'
+        : null
+    }
+
+    middleCards.forEach((card, index) => {
+        if(card != 'empty'){
             card.index = index
 
             if(card.img.alt[0] == 'J'){
@@ -736,7 +868,7 @@ function handlePlayClick(e){
                         break;
                 }
             }
-
+            
             switch(index){
                 case 0:
                     card.player = players[1].name
@@ -757,14 +889,14 @@ function handlePlayClick(e){
             } else if(card.img.alt[1] == firstSuit){
                 firSuitCards.push(card)
             }
-        })
+        }
+    })
 
-        if(trumpCards[0]){
-            highCardWinner(trumpCards)
-        } else {
-            highCardWinner(firSuitCards)
-        } 
-    }
+    if(trumpCards[0]){
+        highCardWinner(trumpCards)
+    } else {
+        highCardWinner(firSuitCards)
+    } 
 }
 
 async function highCardWinner(cards){
@@ -795,9 +927,9 @@ async function highCardWinner(cards){
         card.img.alt = parseInt(card.img.alt)
     })
     cards.sort((card1, card2) => card1.img.alt - card2.img.alt)
-    console.log(cards)
     let winner = cards[cards.length-1].player;
-    document.querySelector('#message-area').innerHTML = `${winner} has won the round`;
+    let winnerMessage = document.querySelector('#winner-message')
+    winnerMessage.innerHTML = `${winner} has won the round`;
 
     players.forEach(player => {
         if(player.name == winner){
@@ -808,14 +940,21 @@ async function highCardWinner(cards){
     await delay(3000)
     
     middleCards.forEach(card => {
-        card.img.remove()     
+        if(card != 'empty'){
+            card.img.remove()
+        }     
     })
 
-    document.querySelector('#message-area').innerHTML = ''
+    winnerMessage.innerHTML = ''
 
     middleCards = [];
+    
+    let tester = 
+    players[0].isEmpty
+        ? players[1].hand.length
+        : players[0].hand.length
 
-    if(players[0].hand.length != 0){
+    if(tester != 0){
         dealer = '';
         let playerToMove;
 
@@ -845,7 +984,7 @@ async function highCardWinner(cards){
         let team1Total = 0;
         let team2Total = 0;
 
-        if(!goAlonePlayer){
+        if(!goAloneTeammate.player){
             if(players[0].team == 1){
                 team1Total += players[0].tricks + players[2].tricks
                 team2Total += players[1].tricks + players[3].tricks
@@ -854,19 +993,65 @@ async function highCardWinner(cards){
                 team2Total += players[0].tricks + players[2].tricks
             }
 
-            console.log(teamThatPicked) // 
-            console.log(team1Total) // 
-            console.log(team2Total) // 
             if(team1Total > team2Total){
                 teamThatPicked == 1 ? team1Total == 5 ? teams[0].score += 2: teams[0].score += 1: teams[0].score += 2
             } else {
                 teamThatPicked == 2 ? team2Total == 5 ? teams[1].score += 2: teams[1].score += 1: teams[1].score += 2
             }
+        } else {
+            goAloneTeammate.player.hand = []
+            if(players[1].team == 1){
+                if(goAloneTeammate.player.team == 1){
+                    team1Total += players[1].tricks;
+                    team2Total += players[0].tricks + players[2].tricks;
+                    Object.assign(players[3], goAloneTeammate.player)
+                } else {
+                    team1Total += players[1].tricks + players[3].tricks;
+                    if(players[0].isEmpty){
+                        team2Total += players[2].tricks
+                        Object.assign(players[0], goAloneTeammate.player)
+                    } else {
+                        team2Total += players[0].tricks
+                        Object.assign(players[2], goAloneTeammate.player)
+                    }
+                }
+            } else {
+                if(goAloneTeammate.player.team == 2){
+                    team1Total += players[0].tricks + players[2].tricks;
+                    team2Total += players[1].tricks;
+                    Object.assign(players[3], goAloneTeammate.player)
+                } else {
+                    team2Total += players[1].tricks + players[3].tricks;
+                    if(players[0].isEmpty){
+                        team1Total += players[2].tricks
+                        Object.assign(players[0], goAloneTeammate.player)
+                    } else {
+                        team1Total += players[0].tricks
+                        Object.assign(players[2], goAloneTeammate.player)
+                    }
+                }
+            }
 
-            trump = '';
+            if(team1Total > team2Total){
+                teamThatPicked == 1 ? team1Total == 5 ? teams[0].score += 4: teams[0].score += 1: teams[1].score += 2
+            } else {
+                teamThatPicked == 2 ? team2Total == 5 ? teams[1].score += 4: teams[1].score += 1: teams[0].score += 2
+            }
 
-            renderScoreboard()
+            goAloneTeammate.player = null
+        }
 
+        trump = '';
+
+        document.querySelector('.top-card-to-side').remove()
+        document.querySelector('.flipped-card').remove()
+
+        renderScoreboard()
+
+        if(theresAWinner()){
+            await delay(2000)
+            handleWin()
+        } else {
             let nextDealersDirection
 
             players.forEach((player, index) => {
@@ -892,17 +1077,33 @@ async function highCardWinner(cards){
                     playerToMove = players.pop()
                     players.unshift(playerToMove)
                     break;
-            }
-
-            document.querySelector('.top-card-to-side').remove()
-            document.querySelector('.flipped-card').remove()
-
-            dealer = nextDealer
-
-            dealCards(nextDealer, players)
         }
 
+        
+
+        dealer = nextDealer
+
+        dealCards(nextDealer, players)
+        }
     }
+}
+
+function theresAWinner(){
+    let winnerMessage = document.getElementById('winner-message')
+
+    if(teams[0].score >= 10){
+        winnerMessage.innerHTML = `${teams[0].teamMates[0]} and ${teams[0].teamMates[1]}'s team has won!`
+        return true
+    } else if(teams[1].score >= 10){
+        winnerMessage.innerHTML = `${teams[1].teamMates[0]} and ${teams[1].teamMates[1]}'s team has won!`
+        return true
+    }
+    return false
+}
+
+function handleWin(){
+    let winScreen = document.getElementById('handle-win')
+    winScreen.classList.remove('invisible')
 }
 
 function renderScoreboard(renderTrump = false){
@@ -920,18 +1121,20 @@ function renderScoreboard(renderTrump = false){
     }
 }
 
-function renderMiddle(){
+async function renderMiddle(){
     middleCards.forEach((card, index) => {
-        switch(index){
-            case 0:
-                card.img.classList.replace('played-card','right-played')
-                break;
-            case 1:
-                card.img.classList.replace('right-played','top-played')
-                break;
-            case 2:
-                card.img.classList.replace('top-played','left-played')
-                break;
+        if(card != 'empty'){
+            switch(index){
+                case 0:
+                    card.img.classList.replace('played-card','right-played')
+                    break;
+                case 1:
+                    card.img.classList.replace('right-played','top-played')
+                    break;
+                case 2:
+                    card.img.classList.replace('top-played','left-played')
+                    break;
+            }
         }
     })
 }

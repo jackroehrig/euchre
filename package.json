@@ -1,0 +1,23 @@
+{
+  "name": "euchre",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackroehrig/hearts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jackroehrig/hearts/issues"
+  },
+  "homepage": "https://github.com/jackroehrig/hearts#readme",
+  "dependencies": {
+    "heroku": "^7.59.2"
+  }
+}

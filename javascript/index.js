@@ -23,7 +23,6 @@ import * as myStuff from './functions.mjs';
 
 let settingsMenu = document.querySelector('.settings-menu')
 let gameOptionsMenu = document.querySelector('.game-options')
-// let names = [];
 
 myStuff.addButtonEvent('name', 'play', () => gameOptionsMenu.classList.remove('invisible'))
 myStuff.addButtonEvent('name', 'settings', () => settingsMenu.classList.remove('invisible'))
@@ -43,41 +42,6 @@ myStuff.addButtonEvent('class', 'start-button', (e) => {
         document.querySelector('#choose-option').innerHTML = 'Please choose either vs. Computer or Multiplayer.'
     }
 })
-
-// let playerOptions = document.getElementById('player-options')
-// let numbersLabel = document.createElement('label')
-// let label1 = document.createElement('label')
-// let playerNumber1 = document.createElement('input')
-// playerNumber1.type = 'text';
-// let label2 = document.createElement('label')
-// let playerNumber2 = document.createElement('input')
-// playerNumber2.type = 'text';
-// let label3 = document.createElement('label')
-// let playerNumber3 = document.createElement('input')
-// playerNumber3.type = 'text';
-// let label4 = document.createElement('label')
-// let playerNumber4 = document.createElement('input')
-// playerNumber4.type = 'text';
-// let namesElmArr = []
-// namesElmArr.push(numbersLabel, label1, playerNumber1, label2, playerNumber2, label3, playerNumber3, label4, playerNumber4)
-
-// document.querySelector('#multiplayer').addEventListener('change', () => {
-//     if(document.querySelector('#multiplayer').checked && !document.querySelector('[type = text]')){
-//         numbersLabel.innerHTML = 'Please enter the names of each player:'
-//         label1.innerHTML = 'Player 1:'
-//         label2.innerHTML = 'Player 2:'
-//         label3.innerHTML = 'Player 3:'
-//         label4.innerHTML = 'Player 4:'
-//         playerOptions.append(numbersLabel, document.createElement('br'), document.createElement('br'), label1, playerNumber1, document.createElement('br'), document.createElement('br'), label2, playerNumber2, document.createElement('br'), document.createElement('br'), label3, playerNumber3, document.createElement('br'), document.createElement('br'), label4, playerNumber4)
-//     } 
-// })
-
-// document.querySelector('#computer').addEventListener('change', () => {
-//     if(numbersLabel.innerHTML){
-//         namesElmArr.forEach(e => playerOptions.removeChild(e))
-//         document.querySelector('.start-button').getElementsByClassName.transform = 'translateY(100vw)'
-//     }
-// })
 
 myStuff.addSliderEvent('musicVol')
 myStuff.addSliderEvent('soundVol')

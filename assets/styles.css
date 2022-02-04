@@ -1,6 +1,7 @@
 body {
     background-color: green;
     text-align: center;
+    overflow: hidden;
 }
 
 /* Main Page CSS */
@@ -56,7 +57,7 @@ h1 {
     width: 50vw;
 }
 
-#close-settings,#close-game-options {
+#close-settings,#close-game-options, #close-exit-menu {
     font-size: 20px;
     margin-top: 10px;
     margin-right: 20px;
@@ -97,7 +98,8 @@ ul label {
 #themes img{
     height: 13vw;
     width: 13vw;
-    position: relative;
+    margin-left: -1.9vw;
+    margin-top: -0.3vh;
 }
 
 #themes{
@@ -108,98 +110,85 @@ ul label {
     width: 70%;
 }
 
-/* FIX */
-
 /* Highlighted Card CSS */
 .highlighted {
     border: 0.4vw solid yellow;
     border-radius: 1.4vw;
-    height: 12.3vw;
+    height: 12.5vw;
     width: 9.1vw;
     overflow: hidden;
-    /* box-sizing: border-box; */
+    margin: 0;
 }
-
-/* .highlighted>img {
-    bottom: 0.55vw;
-    right: 2.33vw;
-} */
 
 .not-highlighted { 
     border-radius: 1.4vw;
     height: 13.5vw;
     width: 9.5vw;
     overflow: hidden;
+    margin: 0.4vw;
 }
 
-/* .not-highlighted>img {
-    bottom: 0.15vw;
-    right: 1.86vw;
-} */
+/* Switch buttons CSS */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 25px;
+    left: 1vw;
+    top: 0.4vw;
+}
 
-/* ^FIX^ */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
 
-    /* Switch buttons CSS */
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 60px;
-        height: 25px;
-        left: 1vw;
-        top: 0.4vw;
-    }
-    
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-    
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-    
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 17px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: rgb(44, 35, 20);
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-    
-    input:checked + .slider {
-        background-color: yellow;
-    }
-    
-    input:focus + .slider {
-        box-shadow: 0 0 1px yellow;
-    }
-    
-    input:checked + .slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
-    }
-    
-    .slider.round {
-        border-radius: 34px;
-    }
-    
-    .slider.round:before {
-        border-radius: 10px;
-    }
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 17px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: rgb(44, 35, 20);
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: yellow;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px yellow;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 10px;
+}
 
 /* Game Options */
 .game-options {
@@ -255,6 +244,12 @@ ul label {
 
 .menu-button:hover {
     cursor: pointer;
+}
+
+#winner-message {
+    color: white;
+    margin-top: 45vh;
+    font-family: 'Mochiy Pop P One', sans-serif;
 }
 
 #message-area {
@@ -821,6 +816,48 @@ ul label {
     top: 40%;
     left: 24%;
     transform: rotate(90deg);
+}
+
+#handle-win{
+    position: fixed;
+    top: 20%;
+    left: 30%;
+    width: 40%;
+    height: 60%;
+    border-radius: 10px;
+    background-color: rgb(44, 35, 20);
+    border: 8px solid rgb(15, 12, 7);
+    color: white;
+    font-family: 'Mochiy Pop P One', sans-serif;
+}
+
+.win-button{
+    display: block;
+    width: 40%;
+    height: 3vw;
+    margin: 2vw auto;
+    border: none;
+    border-radius: 30px;
+    background-color: rgb(255, 255, 0);
+    font-family: 'Mochiy Pop P One', sans-serif;
+    font-size: 1.3vw;
+}
+
+.win-button:hover {
+    cursor: pointer;
+}
+
+#handle-menu{
+    position: fixed;
+    top: 20%;
+    left: 30%;
+    width: 40%;
+    height: 60%;
+    border-radius: 10px;
+    background-color: rgb(44, 35, 20);
+    border: 8px solid rgb(15, 12, 7);
+    color: white;
+    font-family: 'Mochiy Pop P One', sans-serif;
 }
 
 
