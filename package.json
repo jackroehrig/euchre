@@ -1,6 +1,9 @@
 {
   "name": "euchre",
   "version": "1.0.0",
+  "engines": {
+    "node": "v14.17.4"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -17,7 +20,5 @@
     "url": "https://github.com/jackroehrig/hearts/issues"
   },
   "homepage": "https://github.com/jackroehrig/hearts#readme",
-  "dependencies": {
-    "heroku": "^7.59.2"
-  }
+  "dependencies": {}
 }
