@@ -51,16 +51,18 @@ h1 {
     color: yellow;
     font-size: 60px;
     -webkit-text-stroke: 2px black;
-    margin: 0 auto 1.5vw auto;
-    padding-bottom: 1vw;
+    margin: 0 auto 1.5vh auto;
+    padding-bottom: 1vh;
     border-bottom: 5px solid rgb(15, 12, 7);
     width: 50vw;
 }
 
 #close-settings,#close-game-options, #close-exit-menu {
     font-size: 20px;
-    margin-top: 10px;
-    margin-right: 20px;
+    display: inline;
+    position: absolute;
+    top: 1vw;
+    right: 1vw;
     text-align: right;
     font-family: 'Mochiy Pop P One', sans-serif;
     cursor: pointer;
@@ -89,7 +91,7 @@ ul label {
 
 .settings-menu li {
     align-content: center;
-    margin: 1.5vw auto;
+    margin: 1.5vh auto;
     color: white;
     align-content: center;
 }
