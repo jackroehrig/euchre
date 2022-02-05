@@ -1,9 +1,6 @@
 {
   "name": "euchre",
   "version": "1.0.0",
-  "engines": {
-    "node": "v14.17.4"
-  },
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jackroehrig/hearts.git"
+    "url": "git+https://github.com/jackroehrig/jackroehrig.github.io.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jackroehrig/hearts/issues"
+    "url": "https://github.com/jackroehrig/jackroehrig.github.io/issues"
   },
-  "homepage": "https://github.com/jackroehrig/hearts#readme",
+  "homepage": "https://github.com/jackroehrig/jackroehrig.github.io#readme",
   "dependencies": {}
 }
