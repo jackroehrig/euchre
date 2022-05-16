@@ -6,9 +6,10 @@ body {
 
 /* Main Page CSS */
 h1 {
-    font-size: 5vw;
+    font-size: 6vw;
     color: yellow;
     font-family: 'Mochiy Pop P One', sans-serif;
+    font-weight: bolder;
     -webkit-text-stroke: 2px black;
     margin: 2vw auto;
 }
@@ -21,16 +22,27 @@ h1 {
 .main-option {
     width: 25vw;
     height: 4vw;
-    background-color: rgb(44, 35, 20);
+    background-color: rgb(156, 140, 109);
     border-radius: 10px;
     font-size: 2vw;
+    font-weight: bold;
     color: white;
+    /* -webkit-text-stroke: 1.5px black; */
+    /* border: 3px solid rgb(15, 12, 7); */
     border: none;
     margin: 10px;
+    box-shadow: 0px 4px 15px 4px rgba(0,0,0,0.40);
+    -webkit-transition: background-color 0.2s ease-out;
+    -moz-transition: background-color 0.2s ease-out;
+    -o-transition: background-color 0.2s ease-out;
+    transition: background-color 0.2s ease-out;
 }
 
 .main-option:hover {
-    border: 2px solid white;
+    /* border: 3px solid white; */
+    background-color: rgb(49, 41, 26);
+    color: rgb(156, 140, 109);
+    cursor: pointer;
 }
 
 /* Settings Menu CSS */
@@ -41,7 +53,7 @@ h1 {
     width: 80%;
     height: 90%;
     border-radius: 10px;
-    background-color: rgb(44, 35, 20);
+    background-color: rgb(87, 70, 40);
     border: 8px solid rgb(15, 12, 7);
     color: white;
     font-family: 'Mochiy Pop P One', sans-serif;
@@ -49,11 +61,11 @@ h1 {
 
 .settings-menu h2 {
     color: yellow;
-    font-size: 60px;
+    font-size: 70px;
+    font-weight: bolder;
     -webkit-text-stroke: 2px black;
     margin: 0 auto 1.5vh auto;
     padding-bottom: 1vh;
-    border-bottom: 5px solid rgb(15, 12, 7);
     width: 50vw;
 }
 
@@ -100,36 +112,37 @@ ul label {
 #themes img{
     height: 13vw;
     width: 13vw;
+    object-fit: fill!important;
     margin-left: -1.9vw;
     margin-top: -0.3vh;
 }
 
 #themes{
-    margin: 2vw auto 0 auto;
+    margin: 10px auto;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-content: center;
-    width: 70%;
+    width: 80%;
 }
 
-/* Highlighted Card CSS */
-.highlighted {
-    border: 0.4vw solid yellow;
-    border-radius: 1.4vw;
-    height: 12.5vw;
-    width: 9.1vw;
-    overflow: hidden;
-    margin: 0;
-}
 
-.not-highlighted { 
-    border-radius: 1.4vw;
-    height: 13.5vw;
+.theme-box {
     width: 9.5vw;
-    overflow: hidden;
-    margin: 0.4vw;
+    height: 12.9vw;
+    border-radius: 15%;
+    border: 3px solid transparent;
+    z-index: 10;
+    padding-top: 3.4px;
+    padding-left: 4px;
 }
 
+.not-highlighted {
+    border: 3px solid transparent;
+}
+
+.highlighted {
+    border: 3px solid yellow;
+}
 /* Switch buttons CSS */
 .switch {
     position: relative;
@@ -573,7 +586,7 @@ input:checked + .slider:before {
 
 #left-area {
     left: 1%;
-    bottom: 76%;
+    bottom: 72%;
 }
 
 #right-hand {
@@ -785,6 +798,7 @@ input:checked + .slider:before {
     left: 1vw;
     width: 15%;
     height: 14%;
+    min-height: 120px;
     border-radius: 10px;
     background-color: rgb(44, 35, 20);
     border: 8px solid rgb(15, 12, 7);
@@ -860,6 +874,7 @@ input:checked + .slider:before {
     border: 8px solid rgb(15, 12, 7);
     color: white;
     font-family: 'Mochiy Pop P One', sans-serif;
+    z-index: 1000;
 }
 
 

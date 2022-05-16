@@ -24,24 +24,16 @@ import * as myStuff from './functions.mjs';
 let settingsMenu = document.querySelector('.settings-menu')
 let gameOptionsMenu = document.querySelector('.game-options')
 
-myStuff.addButtonEvent('name', 'play', () => gameOptionsMenu.classList.remove('invisible'))
+myStuff.addButtonEvent('name', 'play', (e) => {
+    e.preventDefault()
+    window.location.href = 'html/play_multiplayer.html'
+})
 myStuff.addButtonEvent('name', 'settings', () => settingsMenu.classList.remove('invisible'))
 myStuff.addButtonEvent('name', 'exit', () => window.close())
 
 
 myStuff.addButtonEvent('id', 'close-settings', () => settingsMenu.classList.add('invisible'))
 myStuff.addButtonEvent('id', 'close-game-options', () => gameOptionsMenu.classList.add('invisible'))
-
-myStuff.addButtonEvent('class', 'start-button', (e) => {
-    e.preventDefault()
-    if(document.querySelector('#computer').checked){
-        window.location.href = 'html/play_AI.html'
-    } else if(document.querySelector('#multiplayer').checked){
-        window.location.href = 'html/play_multiplayer.html'
-    } else {
-        document.querySelector('#choose-option').innerHTML = 'Please choose either vs. Computer or Multiplayer.'
-    }
-})
 
 myStuff.addSliderEvent('musicVol')
 myStuff.addSliderEvent('soundVol')

@@ -120,10 +120,10 @@ function addThemeEvent(id){
         let themes = document.querySelector('#themes')
         Array.from(themes.children).forEach(child => {
             if(typeof child == 'object'){
-                child.classList = 'not-highlighted'
+                child.classList = 'not-highlighted theme-box'
             }
         })
-        e.currentTarget.classList = 'highlighted'
+        e.currentTarget.classList = 'highlighted theme-box'
         localStorage.setItem('theme', e.currentTarget.id)
     })
 
@@ -131,6 +131,7 @@ function addThemeEvent(id){
         if(localStorage.getItem('theme') != e.currentTarget.id){
             e.currentTarget.classList.remove('not-highlighted')
             e.currentTarget.classList.add('highlighted')
+            e.currentTarget.classList.add('theme-box')
         }
     })
 
@@ -138,6 +139,7 @@ function addThemeEvent(id){
         if(localStorage.getItem('theme') != e.currentTarget.id){
             e.currentTarget.classList.remove('highlighted')
             e.currentTarget.classList.add('not-highlighted')
+            e.currentTarget.classList.add('theme-box')
         }
     })
 }
