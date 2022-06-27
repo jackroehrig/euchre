@@ -1,3 +1,10 @@
 # Jack's Euchre Game!!!
 
-Just open the index.html to begin
+## Live Link
+
+[Live Euchre Game](https://jackroehrig.github.io/)
+
+## Technologies
+  - HTML
+  - CSS
+  - JS
